@@ -80,7 +80,7 @@ class AppHandler(SimpleHTTPRequestHandler):
             self._send_json(502, {"error": f"模型响应格式不符合预期: {error}"})
             return
 
-        self._send_json(200, {"content": result})
+        self._send_json(200, result)
 
     def translate_path(self, path: str) -> str:
         translated = super().translate_path(path)
@@ -101,7 +101,7 @@ class AppHandler(SimpleHTTPRequestHandler):
         print(f"[server] {self.address_string()} - {message % args}")
 
 
-def request_brief(input_text: str, focus: str, api_key: str) -> str:
+def request_brief(input_text: str, focus: str, api_key: str) -> dict[str, Any]:
     base_url = os.getenv("AI_API_BASE", "https://api.openai.com/v1").rstrip("/")
     model = os.getenv("AI_MODEL", "gpt-4.1-mini")
     system_prompt = (
@@ -123,12 +123,19 @@ def request_brief(input_text: str, focus: str, api_key: str) -> str:
     request = urllib.request.Request(
         f"{base_url}/chat/completions",
         data=json.dumps(body).encode("utf-8"),
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
         method="POST",
     )
     with urllib.request.urlopen(request, timeout=90) as response:
         payload = json.load(response)
-    return payload["choices"][0]["message"]["content"]
+    return {
+        "content": payload["choices"][0]["message"]["content"],
+        "model": payload.get("model", model),
+        "usage": payload.get("usage", {}),
+    }
 
 
 if __name__ == "__main__":

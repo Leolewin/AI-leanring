@@ -20,10 +20,10 @@
       </a>
       <nav class="main-nav" aria-label="主导航">
         <button class="nav-link active" data-view="home">总览</button>
-        <button class="nav-link" data-view="learn">7 天课程</button>
+        <button class="nav-link" data-view="learn">系统学习</button>
         <button class="nav-link" data-view="news">AI 雷达</button>
         <button class="nav-link" data-view="ecosystem">生态榜</button>
-        <button class="nav-link" data-view="techniques">开发秘籍</button>
+        <button class="nav-link" data-view="techniques">Agent 工程</button>
         <button class="nav-link" data-view="lab">创业实验室</button>
       </nav>
       <button id="theme-toggle" class="icon-button" aria-label="切换主题">◐</button>
@@ -103,8 +103,9 @@
         <div class="page-intro">
           <p class="eyebrow">Evidence-based Learning Sprint</p>
           <h1>不是读提纲，而是真正完成一门课</h1>
-          <p>每天包含权威开源章节、可运行 Notebook、浏览器实验、学习产出和通过标准。建议每天预留 2～3 小时。</p>
+          <p>先完成 7 天高强度基础，再沿 12 周进阶路线继续。每一天包含权威章节、可运行 Notebook、浏览器实验、学习产出和通过标准。</p>
         </div>
+        <div id="learning-overview" class="learning-overview loading">正在加载完整学习体系…</div>
         <div class="learning-layout">
           <aside id="day-nav" class="day-nav"></aside>
           <article id="lesson-content" class="lesson-content loading">正在加载课程…</article>
@@ -150,9 +151,9 @@
       <section id="view-techniques" class="view">
         <div class="page-intro techniques-intro">
           <div>
-            <p class="eyebrow">AI Development Playbook</p>
-            <h1>让 GPT / Claude 真正参与软件开发</h1>
-            <p>从需求澄清、编码和 Debug，到 Agent 编排、结果一致性与交付验证，把“随便问问”升级为稳定工程流程。</p>
+            <p class="eyebrow">Agent Engineering Course</p>
+            <h1>从一次模型调用，到可上线的 Agent Harness</h1>
+            <p>按严格顺序学习模型调用、工具、手写循环、Workflow、Context、Skills、MCP、持久化、Eval 与安全；速查 Prompt 只作为课程后的工具箱。</p>
           </div>
           <div class="freshness-card">
             <span>实践雷达更新</span>
@@ -160,6 +161,7 @@
             <small>追踪权威 Cookbook 与热门工程仓库</small>
           </div>
         </div>
+        <div id="agent-course" class="agent-course loading">正在加载 Agent 工程课程…</div>
         <section class="technique-loop panel">
           <div>
             <p class="eyebrow">推荐默认流程</p>
@@ -227,7 +229,7 @@
           <div class="architecture-flow">
             <span>官方 RSS / GitHub</span><b>→</b><span>清洗与去重</span><b>→</b><span>LLM 分析</span><b>→</b><span>行动建议</span>
           </div>
-          <p class="muted">这就是一个最小 RAG/Agent 产品：获取上下文 → 组织提示 → 调用模型 → 输出可评测结果。</p>
+          <p class="muted">这是一个单次结构化模型调用产品，不是 RAG 或 Agent：离线脚本获取素材 → 人工选择上下文 → 服务端调用模型 → 输出可评测结果。</p>
         </section>
       </section>
     </main>

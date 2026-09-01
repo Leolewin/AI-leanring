@@ -1,5 +1,6 @@
 const state = {
   curriculum: [],
+  curriculumMeta: null,
   news: [],
   ecosystem: null,
   techniques: null,
@@ -36,7 +37,7 @@ function switchView(name) {
 }
 
 function completedTasks() {
-  return Object.values(state.progress).filter(Boolean).length;
+  return Object.entries(state.progress).filter(([key, value]) => key.startsWith("day-") && value === true).length;
 }
 
 function totalTasks() {
@@ -49,7 +50,7 @@ function isDayComplete(day) {
 
 function renderProgress() {
   const total = totalTasks();
-  const percent = total ? Math.round((completedTasks() / total) * 100) : 0;
+  const percent = total ? Math.min(100, Math.round((completedTasks() / total) * 100)) : 0;
   document.querySelector("#progress-percent").textContent = `${percent}%`;
   document.querySelector("#progress-bar").style.width = `${percent}%`;
   document.querySelector("#week-strip").innerHTML = state.curriculum
@@ -67,6 +68,93 @@ function renderDayNav() {
         </button>`,
     )
     .join("");
+}
+
+function renderLearningOverview() {
+  const data = state.curriculumMeta;
+  document.querySelector("#learning-overview").innerHTML = `
+    <section class="course-contract panel">
+      <div>
+        <p class="eyebrow">学习契约</p>
+        <h2>${escapeHtml(data.contract.title)}</h2>
+        <p>${escapeHtml(data.contract.description)}</p>
+      </div>
+      <div class="course-numbers">
+        ${data.contract.metrics.map((metric) => `<article><strong>${escapeHtml(metric.value)}</strong><span>${escapeHtml(metric.label)}</span></article>`).join("")}
+      </div>
+      <div class="pace-options">
+        ${data.contract.paceOptions.map((pace) => `<article><strong>${escapeHtml(pace.name)} · ${escapeHtml(pace.schedule)}</strong><span>${escapeHtml(pace.for)}</span></article>`).join("")}
+      </div>
+      <div class="honesty-note"><strong>诚实边界：</strong>${escapeHtml(data.contract.boundary)}</div>
+    </section>
+    <section class="diagnostic panel">
+      <div><p class="eyebrow">开始前诊断</p><h2>你是否需要先做预备课？</h2></div>
+      <div class="diagnostic-grid">
+        ${data.prerequisites
+          .map(
+            (item, index) => `
+              <label>
+                <input type="checkbox" data-prerequisite="${index}" />
+                <span><strong>${escapeHtml(item.skill)}</strong><small>${escapeHtml(item.check)}</small></span>
+              </label>`,
+          )
+          .join("")}
+      </div>
+      <div id="diagnostic-result" class="diagnostic-result">请诚实勾选你已经能独立完成的项目。</div>
+    </section>
+    <section class="knowledge-map">
+      <div class="section-heading"><div><p class="eyebrow">完整知识地图</p><h2>7 天负责入门，12 周负责扎实</h2></div><p>不要把“看过”误认为“掌握”。每层都有独立产出和验收。</p></div>
+      <div class="track-grid">
+        ${data.tracks
+          .map(
+            (track) => `
+              <article class="track-card">
+                <span>${escapeHtml(track.duration)}</span>
+                <h3>${escapeHtml(track.title)}</h3>
+                <p>${escapeHtml(track.outcome)}</p>
+                <ul>${track.modules.map((module) => `<li>${escapeHtml(module)}</li>`).join("")}</ul>
+              </article>`,
+          )
+          .join("")}
+      </div>
+    </section>
+    <section class="notebook-guide panel">
+      <div><p class="eyebrow">零基础操作手册</p><h2>${escapeHtml(data.notebookGuide.title)}</h2></div>
+      <ol>${data.notebookGuide.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+    </section>
+    <details class="lab-verification panel">
+      <summary><span><small>客观验收</small><strong>7 天实验证据表</strong></span><b>展开 →</b></summary>
+      <div class="verification-grid">
+        ${data.labVerification.map((item) => `<article><strong>Day ${item.day} · ${escapeHtml(item.artifact)}</strong><ul>${item.checks.map((check) => `<li>${escapeHtml(check)}</li>`).join("")}</ul></article>`).join("")}
+      </div>
+    </details>
+    <details class="misconception-panel panel">
+      <summary><span><small>必须纠正</small><strong>16 个最常见的 AI 初学者误区</strong></span><b>展开 →</b></summary>
+      <div class="misconception-grid">
+        ${data.misconceptions.map((item) => `<article><strong>✗ ${escapeHtml(item.wrong)}</strong><p>✓ ${escapeHtml(item.correct)}</p></article>`).join("")}
+      </div>
+    </details>
+    <section class="final-assessment panel">
+      <div class="section-heading"><div><p class="eyebrow">统一结业测评</p><h2>不是每天猜一道题：用 12 题检查整条知识链</h2></div><p>这是可复习的开放式自测，不是防作弊证书；提交后显示解释，达到 10/12 才建议进入 Agent 工程课。</p></div>
+      <div class="assessment-questions">
+        ${data.finalAssessment
+          .map(
+            (question, questionIndex) => `
+              <fieldset>
+                <legend>${questionIndex + 1}. ${escapeHtml(question.question)}</legend>
+                ${question.options.map((option, optionIndex) => `<label><input type="radio" name="final-${questionIndex}" value="${optionIndex}" />${escapeHtml(option)}</label>`).join("")}
+                <p class="assessment-feedback" data-assessment-feedback="${questionIndex}" hidden></p>
+              </fieldset>`,
+          )
+          .join("")}
+      </div>
+      <button id="submit-final-assessment" class="primary-action">提交并查看薄弱项</button>
+      <div id="assessment-score" class="assessment-score" hidden></div>
+    </section>
+    <details class="source-policy panel">
+      <summary><strong>${escapeHtml(data.sourcePolicy.title)}</strong><span>为什么这些链接可信？</span></summary>
+      <ul>${data.sourcePolicy.rules.map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}</ul>
+    </details>`;
 }
 
 function renderLesson() {
@@ -132,6 +220,13 @@ function renderLesson() {
       </div>
       <h4>通过标准</h4>
       <ul class="pass-criteria">${day.deliverable.passCriteria.map((criterion) => `<li>${escapeHtml(criterion)}</li>`).join("")}</ul>
+    </section>
+    <section class="lesson-section learning-journal">
+      <p class="eyebrow">费曼复述与证据</p>
+      <h3>不看资料，用自己的话回答</h3>
+      <label><strong>${escapeHtml(day.lab.explain)}</strong><textarea data-journal="explain-${day.day}" placeholder="先写因果链，再写一个反例。不要复制课程原句。">${escapeHtml(localStorage.getItem(`learning-journal-explain-${day.day}`) || "")}</textarea></label>
+      <label><strong>今天最容易犯的错误，以及你如何验证它？</strong><textarea data-journal="risk-${day.day}" placeholder="例：我可能把相似度当成事实性；我会加入无答案和冲突文档测试。">${escapeHtml(localStorage.getItem(`learning-journal-risk-${day.day}`) || "")}</textarea></label>
+      <p class="journal-hint">日志只保存在本机浏览器。课程不会把“写了字”当成掌握；你仍需满足下方可观察的通过标准。</p>
     </section>
     <section class="lesson-section">
       <p class="eyebrow">完成清单</p>
@@ -255,6 +350,47 @@ function renderTechniques() {
     .join("");
 }
 
+function renderAgentCourse() {
+  const course = state.techniques.course;
+  document.querySelector("#agent-course").innerHTML = `
+    <section class="agent-course-intro panel">
+      <div><p class="eyebrow">系统课 · ${escapeHtml(course.duration)}</p><h2>${escapeHtml(course.title)}</h2><p>${escapeHtml(course.description)}</p></div>
+      <div class="agent-vocabulary">
+        ${course.vocabulary.map((item) => `<span><strong>${escapeHtml(item.term)}</strong>${escapeHtml(item.definition)}</span>`).join("")}
+      </div>
+    </section>
+    <div class="agent-module-list">
+      ${course.modules
+        .map(
+          (module, index) => `
+            <details class="agent-module panel" ${index === 0 ? "open" : ""}>
+              <summary>
+                <span class="module-index">${String(index + 1).padStart(2, "0")}</span>
+                <span><small>${escapeHtml(module.phase)} · ${escapeHtml(module.duration)}</small><strong>${escapeHtml(module.title)}</strong></span>
+                <b>+</b>
+              </summary>
+              <div class="module-body">
+                <p class="module-goal"><strong>学完能够：</strong>${escapeHtml(module.outcome)}</p>
+                <div class="module-columns">
+                  <div><h4>核心内容</h4><ol>${module.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")}</ol></div>
+                  <div><h4>动手交付</h4><p>${escapeHtml(module.exercise)}</p><h4>通过标准</h4><ul>${module.mastery.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>
+                </div>
+                <div class="module-resources">
+                  ${module.resources.map((resource) => `<a href="${escapeHtml(resource.url)}" target="_blank" rel="noreferrer"><strong>${escapeHtml(resource.title)}</strong><small>${escapeHtml(resource.source)}</small></a>`).join("")}
+                </div>
+                <label class="module-complete"><input type="checkbox" data-agent-module="${module.id}" ${state.progress[`agent-${module.id}`] ? "checked" : ""} />我已完成交付，并能逐条满足通过标准</label>
+              </div>
+            </details>`,
+        )
+        .join("")}
+    </div>
+    <section class="agent-capstone panel">
+      <p class="eyebrow">毕业项目</p><h2>${escapeHtml(course.capstone.title)}</h2><p>${escapeHtml(course.capstone.description)}</p>
+      <div class="capstone-architecture">${course.capstone.architecture.map((step) => `<span>${escapeHtml(step)}</span>`).join("<b>→</b>")}</div>
+      <ul>${course.capstone.criteria.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    </section>`;
+}
+
 function renderPracticeUpdates() {
   document.querySelector("#practice-updates").innerHTML = state.techniques.updates.length
     ? state.techniques.updates
@@ -329,6 +465,7 @@ function bindEvents() {
     const techniqueFilter = event.target.closest("[data-technique-filter]");
     const copyPrompt = event.target.closest("[data-copy-prompt]");
     const answer = event.target.closest("[data-answer]");
+    const submitAssessment = event.target.closest("#submit-final-assessment");
     if (nav) switchView(nav.dataset.view);
     if (go) switchView(go.dataset.go);
     if (day) {
@@ -363,14 +500,52 @@ function bindEvents() {
       explanation.hidden = false;
       if (answer.classList.contains("correct")) showToast("答对了，请继续读解释");
     }
+    if (submitAssessment) {
+      let score = 0;
+      state.curriculumMeta.finalAssessment.forEach((question, index) => {
+        const selected = document.querySelector(`input[name="final-${index}"]:checked`);
+        const feedback = document.querySelector(`[data-assessment-feedback="${index}"]`);
+        const correct = Number(selected?.value) === question.answer;
+        if (correct) score += 1;
+        feedback.hidden = false;
+        feedback.className = `assessment-feedback ${correct ? "correct" : "incorrect"}`;
+        feedback.textContent = `${correct ? "正确" : "需要复习"}：${question.explanation}`;
+      });
+      const result = document.querySelector("#assessment-score");
+      result.hidden = false;
+      result.innerHTML = `<strong>${score}/12 · ${Math.round((score / 12) * 100)}%</strong><span>${score >= 10 ? "达到基础结业线。请带着错题记录进入 Agent 工程课。" : "暂未达到 10/12。根据错题解释返回对应 Day 重做实验。"}</span>`;
+      state.progress["foundation-assessment"] = score;
+      localStorage.setItem("ai-week-progress-v2", JSON.stringify(state.progress));
+    }
   });
 
   document.addEventListener("change", (event) => {
-    if (!event.target.matches("[data-task]")) return;
-    state.progress[event.target.dataset.task] = event.target.checked;
-    localStorage.setItem("ai-week-progress-v2", JSON.stringify(state.progress));
-    renderProgress();
-    renderDayNav();
+    if (event.target.matches("[data-task]")) {
+      state.progress[event.target.dataset.task] = event.target.checked;
+      localStorage.setItem("ai-week-progress-v2", JSON.stringify(state.progress));
+      renderProgress();
+      renderDayNav();
+    }
+    if (event.target.matches("[data-agent-module]")) {
+      state.progress[`agent-${event.target.dataset.agentModule}`] = event.target.checked;
+      localStorage.setItem("ai-week-progress-v2", JSON.stringify(state.progress));
+    }
+    if (event.target.matches("[data-prerequisite]")) {
+      const completed = document.querySelectorAll("[data-prerequisite]:checked").length;
+      const total = state.curriculumMeta.prerequisites.length;
+      const result = document.querySelector("#diagnostic-result");
+      result.textContent =
+        completed === total
+          ? "准备完成：可以直接开始 Day 1。"
+          : completed >= total - 1
+            ? "基本准备完成：先补齐未勾选项，再开始 Day 1。"
+            : `建议先完成预备课：当前 ${completed}/${total}，否则 7 天课程会变成复制代码。`;
+    }
+  });
+
+  document.addEventListener("input", (event) => {
+    if (!event.target.matches("[data-journal]")) return;
+    localStorage.setItem(`learning-journal-${event.target.dataset.journal}`, event.target.value);
   });
 
   document.querySelector("#theme-toggle").addEventListener("click", () => {
@@ -420,18 +595,21 @@ async function init() {
       techniquesResponse.json(),
     ]);
     state.curriculum = curriculum.days;
+    state.curriculumMeta = curriculum;
     state.news = news.items;
     state.ecosystem = ecosystem;
     state.techniques = techniques;
     document.querySelector("#news-updated").textContent = new Date(news.updatedAt).toLocaleString("zh-CN", { dateStyle: "medium", timeStyle: "short" });
     document.querySelector("#techniques-updated").textContent = new Date(techniques.updatedAt).toLocaleString("zh-CN", { dateStyle: "medium", timeStyle: "short" });
     renderProgress();
+    renderLearningOverview();
     renderDayNav();
     renderLesson();
     renderNewsFilters();
     renderNews();
     renderHomeSignals();
     renderEcosystem();
+    renderAgentCourse();
     renderTechniqueFilters();
     renderTechniques();
     renderPracticeUpdates();

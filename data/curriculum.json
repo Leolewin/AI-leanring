@@ -2,6 +2,174 @@
   "title": "AI 入门一周通：真实学习版",
   "version": "2026.09.2",
   "method": "Read → Run → Explain → Build → Verify",
+  "contract": {
+    "title": "56 小时建立可验证基础，不承诺 7 天成为专家",
+    "description": "课程按每天约 8 小时设计。你会从标量梯度、bigram 和 tokenizer 开始，走到 tiny GPT、Prompt Eval、RAG、MCP、Agent 与可测 MVP。",
+    "boundary": "7 天足以建立正确地图并完成一次端到端实践，但不足以熟练训练大模型或上线高风险 Agent。后续 12 周路线不可省略。",
+    "metrics": [
+      { "value": "7 × 8h", "label": "高强度基础" },
+      { "value": "7", "label": "可运行核心实验" },
+      { "value": "50", "label": "固定 Eval 案例" },
+      { "value": "12 周", "label": "后续巩固路线" }
+    ],
+    "paceOptions": [
+      { "name": "7 天冲刺", "schedule": "每天 7～10 小时", "for": "可整周投入，希望快速建立完整地图" },
+      { "name": "4 周稳健版", "schedule": "20 次学习、每次约 3 小时", "for": "在职学习；多数 Day 拆成阅读、实现、验收，周末合并一次" }
+    ]
+  },
+  "notebookGuide": {
+    "title": "第一次用 Colab / Notebook，只按这 6 步",
+    "steps": [
+      "打开课程中的 Colab 链接，登录 Google 后选择 File → Save a copy in Drive；不要直接改作者原文件。",
+      "选择 Runtime → Change runtime type。Day 1～3 的小模型默认 CPU 即可，课程明确要求时再选 GPU。",
+      "从上到下逐个运行 Cell。遇到缺包，先运行 Notebook 自带安装 Cell；不要跳过报错继续运行。",
+      "先原样跑出基线，再只改一个变量。记录改了什么、预期什么、实际什么，避免同时改五处后无法解释。",
+      "复制 loss、Tensor shape、样例输出和报错到今日学习日志；没有证据的“运行成功”不算完成。",
+      "结束前保存副本或下载 .ipynb。API Key 只放 Colab Secret / 环境变量，绝不写进 Notebook 或 Git。"
+    ]
+  },
+  "labVerification": [
+    { "day": 1, "artifact": "micrograd + bigram", "checks": ["手算导数与代码梯度一致", "一次小步更新后同批 loss 下降", "bigram 概率每行和约等于 1"] },
+    { "day": 2, "artifact": "Tokenizer + Attention", "checks": ["保存 3 组中英 Token ID", "写出 Q/K/V Tensor shape", "每行 attention weight 和约等于 1，未来位置为 0"] },
+    { "day": 3, "artifact": "Tiny GPT", "checks": ["训练 loss 明显低于随机基线", "train / validation loss 分开记录", "固定 seed 后结果可复现"] },
+    { "day": 4, "artifact": "Prompt / Model comparison", "checks": ["两个版本跑同一批案例", "结构与语义分别打分", "保存至少 3 个失败样本"] },
+    { "day": 5, "artifact": "RAG pipeline", "checks": ["检索 Recall@k 有标注答案", "无答案问题不强行回答", "引用能定位到实际 chunk"] },
+    { "day": 6, "artifact": "Tool loop / MCP design", "checks": ["所有参数执行前校验", "max_steps 必然终止", "写操作路径有人工确认"] },
+    { "day": 7, "artifact": "MVP Eval report", "checks": ["至少 50 条固定案例", "报告成功率、成本和 p95 延迟", "上线门槛失败时明确停止发布"] }
+  ],
+  "sourcePolicy": {
+    "title": "来源与实验边界",
+    "rules": [
+      "核心原理优先采用课程作者、研究机构、模型厂商或协议项目的一手材料；热门仓库只用于补充实践模式。",
+      "本站只写中文导学和少量教学模拟，不复制外部课程正文；版权与许可证以链接目标仓库或网站为准。",
+      "标为 Notebook / 视频 + 代码的项目需要在外部环境真实运行；本站浏览器实验用于观察机制，不能替代真实训练、SDK 或 MCP 实现。",
+      "链接、API 和协议会变化；学习时以来源页面当前版本为准，并在笔记中记录访问日期。"
+    ]
+  },
+  "prerequisites": [
+    { "skill": "Python 基础", "check": "能独立写函数、循环、列表/字典和读写 JSON。" },
+    { "skill": "数学最低基础", "check": "理解函数斜率、向量点积、概率和对数；不会推导也能解释含义。" },
+    { "skill": "命令行与 Git", "check": "能进入目录、运行 Python、安装依赖并查看 git diff。" },
+    { "skill": "Colab 使用", "check": "能复制 Notebook、依次运行单元、修改参数并保存结果。" }
+  ],
+  "tracks": [
+    {
+      "title": "Track A · 7 天可信基础",
+      "duration": "Week 1 · 56h",
+      "outcome": "从原理到应用完成一次闭环，知道每个组件为什么存在及如何评价。",
+      "modules": ["梯度与语言建模", "Tokenizer / Attention", "Tiny GPT 训练", "后训练与模型选择", "Prompt / Eval", "RAG / MCP", "Agent / MVP"]
+    },
+    {
+      "title": "Track B · 模型内部",
+      "duration": "Weeks 2–4",
+      "outcome": "完整跑通 Raschka 章节与练习，能沿 Tensor shape 解释 GPT。",
+      "modules": ["BPE 实现", "多头注意力", "预训练循环", "指令微调", "LoRA / DPO", "KV Cache 与推理"]
+    },
+    {
+      "title": "Track C · LLM 工程",
+      "duration": "Weeks 5–8",
+      "outcome": "把 Prompt、检索、结构化输出、追踪和评测组成可部署应用。",
+      "modules": ["任务型 Eval", "混合检索", "重排与引用", "Tracing", "安全输入", "成本/延迟优化"]
+    },
+    {
+      "title": "Track D · Agent 工程",
+      "duration": "Weeks 9–12",
+      "outcome": "构建有工具权限、持久状态、人工确认、轨迹评测和安全边界的 Agent。",
+      "modules": ["手写 Tool Loop", "Workflow 模式", "Context Engineering", "Skills", "MCP", "LangGraph", "Promptfoo / Inspect"]
+    }
+  ],
+  "misconceptions": [
+    { "wrong": "Token 就是单词", "correct": "Token 是模型专属的字节/子词单元；语言、空格、数字和代码会不同。" },
+    { "wrong": "Embedding 保存原文", "correct": "Embedding 是有损的学习向量，适合特定相似度或预测任务。" },
+    { "wrong": "Attention 展示模型推理", "correct": "Attention 是信息混合机制，不是可靠因果解释。" },
+    { "wrong": "LLM 从数据库取答案", "correct": "Decoder 反复预测下一个 Token 的概率分布。" },
+    { "wrong": "低 temperature 会让答案真实", "correct": "它只让采样更集中，不会补充缺失知识。" },
+    { "wrong": "上下文越长越好", "correct": "无关上下文增加干扰、延迟、成本和 context rot。" },
+    { "wrong": "微调适合加入最新资料", "correct": "变化频繁的事实通常应检索；微调主要改变行为和任务一致性。" },
+    { "wrong": "合法 JSON 就代表正确", "correct": "结构化输出保证形状，不保证语义。" },
+    { "wrong": "向量数据库就是 RAG", "correct": "RAG 还包含语料、切块、召回、重排、上下文、引用和评测。" },
+    { "wrong": "RAG 消除幻觉", "correct": "检索会漏召回或召回错误，生成也可能忽略证据。" },
+    { "wrong": "MCP 让工具自动安全", "correct": "MCP 统一连接；认证、授权、隔离、审批仍由系统负责。" },
+    { "wrong": "Agent 必须多 Agent", "correct": "很多可靠系统只是确定性 Workflow 加少量模型决策。" },
+    { "wrong": "榜首模型最适合产品", "correct": "必须按真实数据、成本、延迟与失败严重度选择。" },
+    { "wrong": "Tracing 就是 Eval", "correct": "Trace 解释单次发生了什么；Eval 衡量数据集上的稳定表现。" },
+    { "wrong": "先写 Prompt 再定义成功", "correct": "应先定义成功标准与测试案例，再优化 Prompt。" },
+    { "wrong": "MVP 应展示最大自主性", "correct": "狭窄、可测、有失败边界的 Workflow 更有价值。" }
+  ],
+  "finalAssessment": [
+    {
+      "question": "为什么反向传播需要保存前向计算图？",
+      "options": ["为了把文本变成 Token", "为了沿局部导数按链式法则分配损失变化", "为了随机初始化参数", "为了减少训练数据"],
+      "answer": 1,
+      "explanation": "计算图记录操作及依赖关系，反向传播才能从 loss 沿链式法则计算每个参数的梯度。"
+    },
+    {
+      "question": "Tokenizer 把同一句话切成更多 Token，最直接会改变什么？",
+      "options": ["事实一定更准确", "上下文占用、成本和模型实际输入序列", "模型参数数量", "Embedding 维度自动翻倍"],
+      "answer": 1,
+      "explanation": "模型只接收 Token ID；切分会改变序列长度、上下文预算与费用。"
+    },
+    {
+      "question": "Decoder-only Transformer 的 causal mask 防止什么？",
+      "options": ["读取当前位置之后的 Token", "模型输出 JSON", "梯度下降", "Embedding 相似"],
+      "answer": 0,
+      "explanation": "语言建模只能根据过去预测未来，mask 阻止位置关注后续 Token。"
+    },
+    {
+      "question": "降低 temperature 的准确含义是什么？",
+      "options": ["给模型增加知识", "让概率分布更集中、输出通常更稳定", "消除幻觉", "强制返回引用"],
+      "answer": 1,
+      "explanation": "Temperature 调整 logits 后的分布尖锐度，不改变模型知道的事实。"
+    },
+    {
+      "question": "给产品选择模型时，最可靠的依据是什么？",
+      "options": ["社交媒体热度", "最大参数量", "真实任务 Eval、失败代价、成本和延迟", "上下文窗口最长"],
+      "answer": 2,
+      "explanation": "通用榜单无法替代代表你产品分布和风险的固定评测集。"
+    },
+    {
+      "question": "Structured Outputs 已通过 JSON Schema 后还必须检查什么？",
+      "options": ["语义和业务约束", "文件扩展名", "模型 Logo", "GPU 型号"],
+      "answer": 0,
+      "explanation": "Schema 只约束结构；内容可能仍然虚构、冲突或不符合业务规则。"
+    },
+    {
+      "question": "完整 RAG 系统不包含下列哪种必然承诺？",
+      "options": ["切块和召回", "重排或上下文组装", "检索与生成评测", "完全消除幻觉"],
+      "answer": 3,
+      "explanation": "RAG 能提供外部证据，但检索和生成链路都可能失败。"
+    },
+    {
+      "question": "什么时候 Workflow 通常优于 Agent？",
+      "options": ["步骤稳定且可预先枚举", "路径高度开放且不可预测", "模型需要自由探索网页", "工具集合不断变化"],
+      "answer": 0,
+      "explanation": "确定性控制流更容易测试、审计和恢复；不要为固定流程增加无谓自主性。"
+    },
+    {
+      "question": "Harness 相比 Agent 多负责什么？",
+      "options": ["只写一段角色 Prompt", "运行时状态、权限、验证、追踪和人机交互", "把 Tool 改名", "增加参数量"],
+      "answer": 1,
+      "explanation": "Harness 是包围 Agent 的工程运行时，使其可控、可观测、可恢复。"
+    },
+    {
+      "question": "MCP 中 Tools、Resources、Prompts 通常分别由谁控制？",
+      "options": ["模型、应用、用户", "用户、模型、应用", "应用、用户、模型", "都由 MCP Server 自动决定"],
+      "answer": 0,
+      "explanation": "这是 MCP 的关键控制边界：模型选择 Tool，应用管理 Resource，上层 UI 让用户选择 Prompt。"
+    },
+    {
+      "question": "一个 Skill 最准确的定义是什么？",
+      "options": ["独立运行的多 Agent", "自动拥有所有工具权限的 Prompt", "可发现、渐进加载的过程知识包", "向量数据库"],
+      "answer": 2,
+      "explanation": "Skill 打包说明、引用与脚本；它不是独立推理循环，也不自动授予权限。"
+    },
+    {
+      "question": "为什么 Agent 还需要 trajectory eval？",
+      "options": ["只为了记录漂亮日志", "最终答案正确时路径可能仍越权、浪费或不可恢复", "替代所有人工评审", "增加输出随机性"],
+      "answer": 1,
+      "explanation": "Agent 的风险存在于行动路径；只评最终答案会漏掉危险 Tool Call、循环和权限问题。"
+    }
+  ],
   "days": [
     {
       "day": 1,
@@ -9,10 +177,18 @@
       "theme": "从预测开始",
       "title": "不要先背术语：亲手理解模型究竟在做什么",
       "intro": "今天的目标不是记住“AI、ML、LLM”的定义，而是通过真实课程和一个可操作实验，理解语言模型训练、预测和生成之间的关系。",
-      "duration": "2 小时",
+      "duration": "8 小时（导学 3h + 实现与产出 5h）",
       "outcome": "能解释语言模型为何是概率模型，以及训练和生成分别发生什么",
       "lessonQuestion": "一个只会预测下一个 Token 的系统，为什么最后能对话、写代码和回答问题？",
       "explanations": [
+        {
+          "title": "第零层：梯度是模型学习的方向",
+          "paragraphs": [
+            "一个神经网络是许多加、乘、激活函数组成的计算图。前向传播得到预测和 Loss；反向传播用链式法则计算每个参数对 Loss 的局部影响，也就是梯度。优化器沿降低 Loss 的方向小步更新参数。",
+            "不需要先会完整微积分，但必须亲手改一个标量参数，观察梯度符号、学习率和 Loss 的变化。否则“模型从数据学习”只是一句空话。"
+          ],
+          "check": "如果某参数梯度为正，做梯度下降时通常要减去 learning_rate × gradient；更新后应用同一批数据重新计算 Loss。"
+        },
         {
           "title": "第一层：模型学习的不是答案表，而是条件概率",
           "paragraphs": [
@@ -39,6 +215,14 @@
         }
       ],
       "resources": [
+        {
+          "title": "The spelled-out intro to neural networks and backpropagation: building micrograd",
+          "source": "Andrej Karpathy · Neural Networks: Zero to Hero",
+          "type": "必做视频 + 代码",
+          "duration": "前 75 分钟 + 复现 90 分钟",
+          "instruction": "暂停视频手算两个局部导数，实现最小 Value.backward()，确认一次参数更新后 loss 下降。",
+          "url": "https://www.youtube.com/watch?v=VMj-3S1tku0"
+        },
         {
           "title": "Introduction to Generative AI and LLMs",
           "source": "Microsoft Generative AI for Beginners · Lesson 01",
@@ -83,6 +267,7 @@
         ]
       },
       "tasks": [
+        "完成 micrograd 前 75 分钟并手算至少一个乘法节点的局部导数",
         "完成 Microsoft Lesson 01 的指定阅读",
         "观看 Karpathy bigram 课程至少前 45 分钟并运行或阅读对应 Notebook",
         "完成浏览器 Token 实验并记录两个反直觉现象",
@@ -106,7 +291,7 @@
       "theme": "Token → 向量 → Attention",
       "title": "文字如何变成向量，Attention 又如何组合上下文",
       "intro": "今天进入 Transformer 核心。你会运行真实 Notebook，理解 Embedding、位置、Query/Key/Value 和多头注意力各自解决什么问题。",
-      "duration": "2.5～3 小时",
+      "duration": "8 小时（导学 3h + Notebook 与解释 5h）",
       "outcome": "能沿着数据流解释一个 Token 如何经过 Attention 得到上下文表示",
       "lessonQuestion": "模型看到的是数字，为什么仍能理解“它”指向谁，以及同一个词在不同句子中的含义？",
       "explanations": [
@@ -164,28 +349,28 @@
       "lab": {
         "type": "attention",
         "title": "实验 2：逐 Token 查看上下文读取",
-        "instructions": "依次点击每个 Token，观察课程设计的 Attention 权重。重点点击“它”“太”“大”，说明为何不同 Query 会得到不同加权结果。",
+        "instructions": "依次点击每个 Token，观察一层 causal self-attention 的教学权重。灰掉的未来位置权重必须为 0；重点比较“它”和后来的“大”分别能读取哪些信息。",
         "explain": "Query、Key、Value 分别承担什么角色？为什么同一个 Token 在不同上下文中会得到不同表示？",
         "tokens": ["苹果", "放", "不进", "盒子", "因为", "它", "太", "大"],
         "weights": [
-          [0.48, 0.08, 0.08, 0.14, 0.05, 0.05, 0.04, 0.08],
-          [0.2, 0.26, 0.18, 0.16, 0.05, 0.05, 0.04, 0.06],
-          [0.13, 0.2, 0.25, 0.23, 0.05, 0.05, 0.04, 0.05],
-          [0.14, 0.08, 0.14, 0.48, 0.05, 0.04, 0.03, 0.04],
-          [0.12, 0.05, 0.12, 0.12, 0.22, 0.13, 0.08, 0.16],
-          [0.34, 0.04, 0.09, 0.24, 0.08, 0.08, 0.04, 0.09],
-          [0.08, 0.03, 0.05, 0.08, 0.08, 0.13, 0.32, 0.23],
+          [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+          [0.43, 0.57, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+          [0.22, 0.34, 0.44, 0.0, 0.0, 0.0, 0.0, 0.0],
+          [0.17, 0.1, 0.17, 0.56, 0.0, 0.0, 0.0, 0.0],
+          [0.21, 0.09, 0.21, 0.21, 0.28, 0.0, 0.0, 0.0],
+          [0.39, 0.05, 0.1, 0.28, 0.09, 0.09, 0.0, 0.0],
+          [0.12, 0.04, 0.07, 0.12, 0.12, 0.19, 0.34, 0.0],
           [0.2, 0.03, 0.07, 0.17, 0.05, 0.16, 0.12, 0.2]
         ],
         "notes": [
-          "“苹果”的表示主要保留自身身份，同时读取“盒子”和性质信息。",
-          "动词位置需要读取动作参与者和结果。",
-          "“不进”与动作、容器关系紧密。",
-          "“盒子”保留自身并读取动作关系。",
-          "因果连接位置需要整合前后两个分句。",
-          "代词位置同时读取两个候选实体；后续性质会帮助模型消歧。",
-          "程度副词主要读取后续形容词。",
-          "性质位置读取“它”与候选实体，为指代判断提供信号。"
+          "第一个位置没有过去上下文，只能读取自身；任何未来权重都必须为 0。",
+          "动词位置只能读取“苹果”和自身，不能偷看后面的结果。",
+          "“不进”可以读取已经出现的主体和动作。",
+          "“盒子”可以整合此前主体、动作和否定结果。",
+          "因果连接词只能整合左侧分句，不能提前读取原因。",
+          "“它”此时只能读取左侧候选实体；这一层不能利用尚未出现的“太大”消歧。",
+          "“太”可以读取此前的“它”和候选实体，但仍看不到下一位置的“大”。",
+          "到“大”出现时，它可以读取“它”、苹果和盒子；多层网络可据此逐步形成指代关系。"
         ]
       },
       "deliverable": {
@@ -223,7 +408,7 @@
       "theme": "Loss、反向传播与采样",
       "title": "模型如何从随机参数变成能生成语言的系统",
       "intro": "今天把前两天连起来：构造训练样本、前向计算、交叉熵、反向传播、参数更新，然后理解推理时 temperature 和采样的真实作用。",
-      "duration": "2.5 小时",
+      "duration": "8 小时（导学 3h + Tiny GPT 实现 5h）",
       "outcome": "能解释训练循环、验证集和生成采样，而不是只会说“喂数据”",
       "lessonQuestion": "模型如何知道一次预测错了？为什么降低训练 Loss 不一定代表产品回答更可靠？",
       "explanations": [
@@ -322,7 +507,7 @@
       "theme": "把自然语言变成可靠接口",
       "title": "停止寻找咒语：用任务契约和测试集改进 Prompt",
       "intro": "今天会完成 Anthropic 的真实交互教程，建立第一个 Eval 数据集，并学会区分“看起来不错”和“在代表性案例上更可靠”。",
-      "duration": "2～2.5 小时",
+      "duration": "7 小时（导学 2.5h + 对比实验 4.5h）",
       "outcome": "能编写带输入输出契约的 Prompt，并用固定案例比较版本",
       "lessonQuestion": "为什么更长的 Prompt 不一定更好，而有清晰成功标准的 Prompt 通常更稳定？",
       "explanations": [
@@ -457,7 +642,7 @@
       "theme": "检索、上下文与引用",
       "title": "模型不知道你的资料：构建一个真正的检索增强流程",
       "intro": "今天不止画流程图。你会运行一个实际检索器，观察召回失败，并理解 chunk、embedding、top-k、rerank 和引用分别影响什么。",
-      "duration": "2.5 小时",
+      "duration": "7 小时（导学 2.5h + Eval 实现 4.5h）",
       "outcome": "能构建并评价最小 RAG，知道检索失败与生成失败的区别",
       "lessonQuestion": "把全部资料塞进 Prompt 为什么不是 RAG？检索到相关文档又为什么仍可能答错？",
       "explanations": [
@@ -559,7 +744,7 @@
       "theme": "工具、状态与 Harness",
       "title": "Agent 不是会聊天的角色：它是一个受约束的决策循环",
       "intro": "今天学习 Hugging Face 官方 Agents Course，并亲手运行一个带工具、步骤预算、停止条件和人工确认的 Agent 状态机。",
-      "duration": "2.5～3 小时",
+      "duration": "8 小时（导学 3h + Tool Loop / MCP 设计 5h）",
       "outcome": "能区分 Workflow 与 Agent，并设计可停止、可观察、可恢复的执行循环",
       "lessonQuestion": "为什么给模型十个工具并说“自主完成”通常不是可靠的 Agent 架构？",
       "explanations": [
@@ -663,7 +848,7 @@
       "theme": "从学习到产品证据",
       "title": "构建、评测并交付 AI Brief Copilot",
       "intro": "最后一天把模型、Prompt、RAG、Agent 与 Eval 连成闭环。目标不是完成一个漂亮 Demo，而是证明一个真实用户能从结果中获得价值。",
-      "duration": "3～4 小时",
+      "duration": "10 小时（导学 2h + MVP 与 50 条 Eval 8h）",
       "outcome": "完成一个有真实输入、模型调用、失败处理、Eval 和用户反馈的 AI MVP",
       "lessonQuestion": "一个能生成文字的页面，距离真正可用的 AI 产品还缺哪些闭环？",
       "explanations": [
@@ -727,7 +912,7 @@
           "有一个真实目标用户和具体决策场景",
           "输入信息带来源、时间并经过基本去重",
           "模型输出有明确结构和证据不足处理",
-          "至少有 10 个固定 Eval 案例",
+          "至少有 50 个固定 Eval 案例，并预先写明发布阈值",
           "保留一次失败结果并加入回归集",
           "记录模型、延迟、成本和错误",
           "API Key 只存在服务端环境变量",
@@ -741,7 +926,7 @@
         "passCriteria": [
           "陌生人可以按 README 启动并完成一次输入输出",
           "输出包含事实、判断、待验证项和来源边界",
-          "Eval 至少覆盖正常、空输入、重复、传言和无关信息",
+          "至少 50 条固定 Eval，覆盖正常、空输入、重复、传言、无关和对抗信息；未达到预设阈值不得发布",
           "至少一位真实用户反馈，而不是模型自评",
           "明确记录当前不工作的部分"
         ]
@@ -749,7 +934,7 @@
       "tasks": [
         "完成 Microsoft 应用生命周期阅读并映射到项目",
         "配置真实 OpenAI-compatible API 并生成一份简报",
-        "运行至少 10 个 Eval 案例并记录失败",
+        "先运行 python3 scripts/run_eval.py --dry-run 验证 50 条数据；连接模型后运行完整回归并保存 RELEASE / STOP 报告",
         "邀请一位真实用户试用并记录反馈",
         "完成毕业包并只选择一个下一轮改进"
       ],

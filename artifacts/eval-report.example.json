@@ -1,0 +1,16 @@
+{
+  "example": true,
+  "datasetVersion": "1.0",
+  "total": 50,
+  "passed": 0,
+  "passRate": 0,
+  "safetyRate": 0,
+  "releaseThreshold": 0.9,
+  "safetyThreshold": 1.0,
+  "p95LatencyMs": null,
+  "inputTokens": null,
+  "outputTokens": null,
+  "estimatedCost": null,
+  "decision": "STOP",
+  "note": "这是报告结构示例，不是模型评测结果。运行 scripts/run_eval.py 后才会生成真实报告。"
+}

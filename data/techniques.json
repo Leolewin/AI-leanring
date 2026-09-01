@@ -1,5 +1,148 @@
 {
   "updatedAt": "2026-09-01T12:54:58.032990+00:00",
+  "course": {
+    "title": "Agent Engineering：从 Tool Call 到 Production Harness",
+    "duration": "8 模块 · 48～64 小时",
+    "description": "这不是 Prompt 技巧合集。每个模块以前一模块的可运行产物为前提，最终组成一个有状态、有权限、有评测、可暂停恢复的 Agent 系统。",
+    "vocabulary": [
+      { "term": "Model", "definition": "概率式输入→输出系统" },
+      { "term": "Tool", "definition": "带 schema 的可调用能力" },
+      { "term": "Agent", "definition": "模型在动态循环中选择行动" },
+      { "term": "Workflow", "definition": "主要由代码规定控制流" },
+      { "term": "Harness", "definition": "围绕 Agent 的上下文、权限、状态、验证、追踪与 UI" },
+      { "term": "MCP", "definition": "暴露 Tools / Resources / Prompts 的连接协议" },
+      { "term": "Skill", "definition": "以 SKILL.md 为核心的可移植过程知识" },
+      { "term": "Subagent", "definition": "拥有独立上下文与工具的另一个 Agent" }
+    ],
+    "modules": [
+      {
+        "id": "model-contract",
+        "phase": "基础",
+        "duration": "6h",
+        "title": "01 · 把模型调用变成可测试的契约",
+        "outcome": "先定义成功，再用结构化输出和固定数据集判断一个模型调用是否合格。",
+        "lessons": ["把需求改写成输入、输出 schema、约束和失败条件", "区分 Prompt 指令、模型参数、结构验证与语义验证", "建立正常、边界、对抗三类至少 20 个 Eval 案例", "比较准确率、格式通过率、延迟、成本和失败严重度"],
+        "exercise": "实现一个需求分类器：输出固定 JSON，拒绝未知类别；用 20 条固定案例跑基线并保存失败样本。",
+        "mastery": ["JSON schema 校验通过率为 100%", "能举出两个“JSON 合法但语义错误”的例子", "变更 Prompt 前后使用同一数据集比较"],
+        "resources": [
+          { "title": "Structured Outputs", "source": "OpenAI Cookbook", "url": "https://cookbook.openai.com/examples/structured_outputs_intro" },
+          { "title": "Evaluation best practices", "source": "OpenAI", "url": "https://platform.openai.com/docs/guides/evaluation-best-practices" },
+          { "title": "Promptfoo Getting Started", "source": "Promptfoo", "url": "https://www.promptfoo.dev/docs/getting-started/" }
+        ]
+      },
+      {
+        "id": "manual-tool-loop",
+        "phase": "Agent 原语",
+        "duration": "8h",
+        "title": "02 · 一个窄 Tool 与手写 Agent Loop",
+        "outcome": "不依赖框架，解释并实现 observe → decide → act → observe 循环。",
+        "lessons": ["Tool schema 是模型与代码之间的协议，不是普通 Prompt", "验证参数、执行 Tool、返回 ToolResult，再让模型继续", "设置最大步数、超时、Token/费用预算和停止原因", "区分可重试错误、业务拒绝和系统故障"],
+        "exercise": "为课程资料实现 search_docs 工具和完整循环；保留每一步 trace，并故意制造无结果、坏参数和预算耗尽。",
+        "mastery": ["任何运行都在 max_steps 内退出", "工具参数在执行前经过 schema 验证", "Trace 能重放每次 Tool Call 与结果"],
+        "resources": [
+          { "title": "Building Effective Agents", "source": "Anthropic", "url": "https://www.anthropic.com/research/building-effective-agents" },
+          { "title": "Agents Course Unit 1", "source": "Hugging Face", "url": "https://huggingface.co/learn/agents-course/unit1/introduction" },
+          { "title": "Agents SDK Quickstart", "source": "OpenAI", "url": "https://openai.github.io/openai-agents-python/quickstart/" }
+        ]
+      },
+      {
+        "id": "workflow-patterns",
+        "phase": "架构选择",
+        "duration": "6h",
+        "title": "03 · Workflow、Agent 还是多 Agent？",
+        "outcome": "按不确定性、可逆性和并行度选择最简单的控制结构。",
+        "lessons": ["Prompt chaining、routing、parallelization、orchestrator-workers、evaluator-optimizer", "固定流程优先用代码；只有路径无法预先枚举时才增加 Agent 自主性", "Subagent 的价值是上下文隔离与并行，不是角色扮演", "串行、并行和 fan-out 的成本、延迟与错误传播"],
+        "exercise": "把同一 research 需求分别画成确定性 Workflow 和 Agent；用决策表选择并实现一种。",
+        "mastery": ["能解释为何不是所有流程都需要 Agent", "决策表包含可预测性、失败代价、权限和可观测性", "Subagent 输出有明确 schema 和合并策略"],
+        "resources": [
+          { "title": "Workflow and agent patterns", "source": "Anthropic", "url": "https://www.anthropic.com/research/building-effective-agents" },
+          { "title": "12-Factor Agents", "source": "HumanLayer", "url": "https://github.com/humanlayer/12-factor-agents" },
+          { "title": "Multi-agent orchestration", "source": "OpenAI Cookbook", "url": "https://cookbook.openai.com/examples/agents_sdk/multi-agent-portfolio-collaboration/multi_agent_portfolio_collaboration" }
+        ]
+      },
+      {
+        "id": "context-engineering",
+        "phase": "可靠性",
+        "duration": "6h",
+        "title": "04 · Context Engineering 与长期任务",
+        "outcome": "把有限上下文当作资源，设计检索、压缩、记忆和隔离策略。",
+        "lessons": ["Context rot：更多 Token 可能降低注意力质量", "Write / Select / Compress / Isolate 四类上下文策略", "短期状态、长期记忆、外部事实与工作产物必须分开", "文件、工具结果和对话的注入边界与来源标记"],
+        "exercise": "给长任务做 context ledger：每轮记录保留、丢弃、压缩和外置内容；对比成功率与 Token 消耗。",
+        "mastery": ["能区分事实存储、任务状态与对话历史", "压缩前后用同一 Eval 检查信息损失", "外部内容永远不被当成高优先级指令"],
+        "resources": [
+          { "title": "Effective context engineering", "source": "Anthropic", "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" },
+          { "title": "Context Engineering", "source": "LangChain", "url": "https://blog.langchain.com/context-engineering-for-agents/" },
+          { "title": "Context management", "source": "OpenAI Agents SDK", "url": "https://openai.github.io/openai-agents-python/context/" }
+        ]
+      },
+      {
+        "id": "skills",
+        "phase": "可复用能力",
+        "duration": "6h",
+        "title": "05 · 写一个真正可用的 Skill",
+        "outcome": "把重复过程封装为渐进披露、可发现、可测试的 Skill，而非长 Prompt。",
+        "lessons": ["Skill 是过程知识包，不是独立 Agent，也不自动获得权限", "name / description 决定发现；SKILL.md 正文决定执行", "主文件保持短小，references 和 scripts 按需加载", "用触发、步骤、反例和验收案例测试 Skill"],
+        "exercise": "创建 repo-inspector Skill：含 SKILL.md、一个 reference、一个确定性 script 与 10 个触发/不触发测试。",
+        "mastery": ["SKILL.md frontmatter 符合规范", "不相关请求不会触发", "脚本可独立运行且错误显式暴露"],
+        "resources": [
+          { "title": "Agent Skills specification", "source": "Agent Skills", "url": "https://agentskills.io/specification" },
+          { "title": "Canonical Skills repository", "source": "Anthropic", "url": "https://github.com/anthropics/skills" },
+          { "title": "About agent skills", "source": "GitHub Docs", "url": "https://docs.github.com/en/copilot/concepts/agents/about-agent-skills" }
+        ]
+      },
+      {
+        "id": "mcp",
+        "phase": "连接协议",
+        "duration": "8h",
+        "title": "06 · MCP：Tools、Resources、Prompts 与安全",
+        "outcome": "设计并连接一个最小 MCP Server，同时明确协议不替你完成的安全职责。",
+        "lessons": ["Host / Client / Server 架构与 JSON-RPC 生命周期", "Tools 由模型选择，Resources 由应用选择，Prompts 由用户选择", "本地 stdio 与远程 Streamable HTTP 的不同信任边界", "认证、授权、最小权限、参数校验、审计和人工确认"],
+        "exercise": "实现只读课程 MCP Server：一个 search tool、一个 syllabus resource、一个 study prompt；为写操作画出审批流程但不开放。",
+        "mastery": ["能准确解释 MCP 不是 Agent", "Tool、Resource、Prompt 的控制者不混淆", "威胁模型覆盖 prompt injection、数据外泄和 confused deputy"],
+        "resources": [
+          { "title": "MCP Architecture", "source": "Model Context Protocol", "url": "https://modelcontextprotocol.io/docs/learn/architecture" },
+          { "title": "MCP Security Best Practices", "source": "Model Context Protocol", "url": "https://modelcontextprotocol.io/specification/draft/basic/security_best_practices" },
+          { "title": "TypeScript SDK", "source": "Model Context Protocol", "url": "https://github.com/modelcontextprotocol/typescript-sdk" }
+        ]
+      },
+      {
+        "id": "durable-harness",
+        "phase": "生产 Harness",
+        "duration": "8h",
+        "title": "07 · 状态、暂停恢复、权限与 Human-in-the-loop",
+        "outcome": "把循环升级为可持久化、可取消、可恢复且高风险动作需审批的 Harness。",
+        "lessons": ["Harness 管理 Agent 本身缺失的运行时职责", "Checkpoint、idempotency、重试、取消和恢复", "权限按 Tool 和参数分级，而不是一次性全开", "关键动作暂停，向人展示意图、参数、风险和回滚方式"],
+        "exercise": "用 LangGraph 或等价状态机实现“研究→草稿→人工批准→发布”；中断进程后从 checkpoint 恢复。",
+        "mastery": ["重复执行不会产生重复副作用", "拒绝审批后有明确终止或修改路径", "状态与完整对话历史解耦"],
+        "resources": [
+          { "title": "LangGraph overview", "source": "LangChain", "url": "https://docs.langchain.com/oss/python/langgraph/overview" },
+          { "title": "Interrupts", "source": "LangChain", "url": "https://docs.langchain.com/oss/python/langgraph/interrupts" },
+          { "title": "OpenAI Agents SDK", "source": "OpenAI", "url": "https://openai.github.io/openai-agents-python/" }
+        ]
+      },
+      {
+        "id": "eval-security",
+        "phase": "上线门禁",
+        "duration": "8h",
+        "title": "08 · Trajectory Eval、红队与上线门禁",
+        "outcome": "不仅评最终答案，还评路径、工具使用、安全、成本和恢复能力。",
+        "lessons": ["Outcome Eval 与 Trajectory Eval 的不同失效面", "确定性断言、模型裁判、人工标注三种方法的组合", "Prompt injection、越权 Tool Call、数据外泄、资源耗尽测试", "上线阈值、回归集、canary、审计与 incident replay"],
+        "exercise": "建立 50 个固定案例，包含 10 个对抗案例；比较两个版本的任务成功率、危险动作率、成本和 p95 延迟。",
+        "mastery": ["高风险安全断言使用确定性检查", "失败 Trace 能归类到模型、Tool、Context 或 Harness", "未达到阈值时发布流程自动失败"],
+        "resources": [
+          { "title": "Inspect AI", "source": "UK AI Security Institute", "url": "https://inspect.aisi.org.uk/" },
+          { "title": "Red Teaming", "source": "Promptfoo", "url": "https://www.promptfoo.dev/docs/red-team/" },
+          { "title": "Agent evals", "source": "OpenAI", "url": "https://platform.openai.com/docs/guides/agent-evals" }
+        ]
+      }
+    ],
+    "capstone": {
+      "title": "可审计的“AI 学习研究员”",
+      "description": "输入学习目标后，系统检索可信资料、生成带引用计划、调用 Skill 产出练习、在发布前请求批准，并用固定数据集评价答案与轨迹。",
+      "architecture": ["Typed request", "Deterministic router", "Retrieval tool / MCP", "Planner agent", "Skill", "Approval gate", "Saved artifact", "Outcome + trajectory eval"],
+      "criteria": ["50 个固定案例，含边界与对抗输入；版本变更必须跑同一数据集", "写入、发布或外部通信动作必须人工确认，所有 Tool Call 可审计", "每个结论可追溯到来源，来源内容不能覆盖系统指令", "有 max_steps、超时、费用预算、取消、重试和 checkpoint", "报告任务成功率、安全失败率、成本与 p95 延迟，而非只展示成功 Demo"]
+    }
+  },
   "playbooks": [
     {
       "id": "01",

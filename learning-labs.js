@@ -22,7 +22,7 @@
         (label, index) => `
           <div class="probability-row">
             <span>${escapeHtml(label)}</span>
-            <div><i style="width:${Math.max(2, probabilities[index] * 100)}%"></i></div>
+            <div><i style="width:${probabilities[index] === 0 ? 0 : Math.max(2, probabilities[index] * 100)}%"></i></div>
             <strong>${Math.round(probabilities[index] * 100)}%</strong>
           </div>`,
       )
@@ -121,11 +121,17 @@
     return `
       <div class="lab-workbench" data-lab="agent">
         <div class="agent-controls">
-          <label>最大步骤 <input type="number" min="1" max="8" value="5" data-agent-budget /></label>
-          <label><input type="checkbox" checked data-agent-confirm /> 发布前人工确认</label>
+          <label>最大步骤 <input type="number" min="1" max="8" value="8" data-agent-budget /></label>
+          <strong>Harness 策略：发布动作必须人工确认</strong>
         </div>
         <button class="secondary-button" data-lab-action="agent-step">执行下一步</button>
         <button class="text-button" data-lab-action="agent-reset">重置</button>
+        <div class="agent-approval" data-agent-approval hidden>
+          <strong>Agent 请求执行有副作用的“发布”动作</strong>
+          <p>请检查动作、参数和证据。批准后执行；拒绝后本次运行终止。</p>
+          <button class="secondary-button" data-lab-action="agent-approve">批准发布</button>
+          <button class="text-button" data-lab-action="agent-reject">拒绝并停止</button>
+        </div>
         <div class="agent-trace" data-agent-trace></div>
       </div>`;
   }
@@ -135,7 +141,7 @@
       <div class="lab-workbench" data-lab="capstone">
         <p>勾选你的 MVP 已具备的证据。没有证据的项目不能算完成。</p>
         <div class="capstone-checks">
-          ${lab.checks.map((item, index) => `<label><input type="checkbox" data-capstone-check="${index}" />${escapeHtml(item)}</label>`).join("")}
+          ${lab.checks.map((item, index) => `<label><input type="checkbox" data-capstone-check="${index}" ${localStorage.getItem(`capstone-check-${index}`) === "true" ? "checked" : ""} />${escapeHtml(item)}</label>`).join("")}
         </div>
         <div class="capstone-score"><strong data-capstone-score>0 / ${lab.checks.length}</strong><span data-capstone-message>先完成问题与用户验证。</span></div>
         <button class="primary-button" data-go="lab">打开创业实验室完成 MVP</button>
@@ -156,12 +162,13 @@
   }
 
   function activate(lab, day) {
-    labState.current = { lab, day, agentStep: 0 };
+    labState.current = { lab, day, agentStep: 0, pendingApproval: false, terminated: false };
     window.requestAnimationFrame(() => {
       if (lab.type === "token") runTokenize();
       if (lab.type === "temperature") updateTemperature();
       if (lab.type === "rag") runRetrieval();
       if (lab.type === "agent") renderAgentTrace();
+      if (lab.type === "capstone") updateCapstone();
     });
   }
 
@@ -249,24 +256,39 @@
 
   function runAgentStep() {
     const budget = Number(document.querySelector("[data-agent-budget]")?.value || 5);
-    const confirmation = document.querySelector("[data-agent-confirm]")?.checked;
     const lab = labState.current.lab;
+    if (labState.current.pendingApproval || labState.current.terminated) return;
     if (labState.current.agentStep >= budget) {
       document.querySelector("[data-agent-trace]").insertAdjacentHTML("beforeend", '<div class="agent-stop">已达到步骤预算，Agent 被 Harness 停止。</div>');
       return;
     }
     const next = lab.steps[labState.current.agentStep];
     if (!next) return;
-    if (next.requiresConfirmation && confirmation) {
-      document.querySelector("[data-agent-trace]").insertAdjacentHTML("beforeend", '<div class="agent-stop">等待人工确认：外部发布属于有副作用操作。</div>');
+    if (next.requiresConfirmation) {
+      labState.current.pendingApproval = true;
+      document.querySelector("[data-agent-approval]").hidden = false;
       return;
     }
     labState.current.agentStep += 1;
     renderAgentTrace();
   }
 
+  function resolveAgentApproval(approved) {
+    if (!labState.current.pendingApproval) return;
+    labState.current.pendingApproval = false;
+    document.querySelector("[data-agent-approval]").hidden = true;
+    if (approved) {
+      labState.current.agentStep += 1;
+      renderAgentTrace();
+      return;
+    }
+    labState.current.terminated = true;
+    document.querySelector("[data-agent-trace]").insertAdjacentHTML("beforeend", '<div class="agent-stop">人工拒绝发布，本次运行已安全终止。</div>');
+  }
+
   function updateCapstone() {
     const checks = [...document.querySelectorAll("[data-capstone-check]")];
+    checks.forEach((checkbox, index) => localStorage.setItem(`capstone-check-${index}`, String(checkbox.checked)));
     const completed = checks.filter((checkbox) => checkbox.checked).length;
     document.querySelector("[data-capstone-score]").textContent = `${completed} / ${checks.length}`;
     document.querySelector("[data-capstone-message]").textContent =
@@ -279,8 +301,14 @@
     if (action === "sample") sampleTokens();
     if (action === "retrieve") runRetrieval();
     if (action === "agent-step") runAgentStep();
+    if (action === "agent-approve") resolveAgentApproval(true);
+    if (action === "agent-reject") resolveAgentApproval(false);
     if (action === "agent-reset") {
       labState.current.agentStep = 0;
+      labState.current.pendingApproval = false;
+      labState.current.terminated = false;
+      const approval = document.querySelector("[data-agent-approval]");
+      if (approval) approval.hidden = true;
       renderAgentTrace();
     }
     const attention = event.target.closest("[data-attention-token]");
