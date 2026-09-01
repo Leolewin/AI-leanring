@@ -14,7 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent
 HOST = os.getenv("HOST", "127.0.0.1")
-PORT = int(os.getenv("PORT", "8000"))
+PORT = int(os.getenv("PORT", "8010"))
 
 
 class AppHandler(SimpleHTTPRequestHandler):
