@@ -1,0 +1,438 @@
+{
+  "updatedAt": "2026-09-01T12:43:50.263259+00:00",
+  "items": [
+    {
+      "title": "Vercel AI SDK 发布 ai@7.0.87",
+      "summary": "### Patch Changes - 850d863: fix(ai): preserve approval descriptors in UI message streams",
+      "url": "https://github.com/vercel/ai/releases/tag/ai%407.0.87",
+      "source": "GitHub Release",
+      "date": "2026-08-31",
+      "category": "框架更新",
+      "score": 48
+    },
+    {
+      "title": "Vercel AI SDK 发布 ai@7.0.86",
+      "summary": "### Patch Changes - 11109ae: feat(ai): support signed tool approvals in WorkflowAgent - Updated dependencies [1329d5a] - @ai-sdk/gateway@4.0.70",
+      "url": "https://github.com/vercel/ai/releases/tag/ai%407.0.86",
+      "source": "GitHub Release",
+      "date": "2026-08-31",
+      "category": "框架更新",
+      "score": 48
+    },
+    {
+      "title": "OpenAI supports California’s bill to advance youth AI safety",
+      "summary": "OpenAI supports California SB 1119, advancing strong, age-appropriate AI safeguards for teens while preserving opportunities to learn, create, and explore.",
+      "url": "https://openai.com/index/supporting-california-bill-advance-ai-youth-safety",
+      "source": "OpenAI News",
+      "date": "2026-08-31",
+      "category": "模型发布",
+      "score": 47
+    },
+    {
+      "title": "The Hugging Face hack could indicate cultural issues at OpenAI",
+      "summary": "This story originally appeared in The Algorithm, our weekly newsletter on AI. To get stories like this in your inbox first, sign up here. By now you’ve probably heard about last month’s major AI security incident, in which OpenAI agents esc",
+      "url": "https://www.technologyreview.com/2026/08/31/1143180/hugging-face-hack-could-indicate-cultural-issues-at-openai/",
+      "source": "MIT Technology Review AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 46
+    },
+    {
+      "title": "Supporting Thailand’s next generation of AI startups",
+      "summary": "OpenAI and Thailand’s MHESI launch an eight-week accelerator helping 10 health, wellness, and education startups turn AI prototypes into trusted products.",
+      "url": "https://openai.com/index/supporting-next-generation-ai-startups-thailand",
+      "source": "OpenAI News",
+      "date": "2026-08-28",
+      "category": "模型发布",
+      "score": 44
+    },
+    {
+      "title": "Mastra 发布 August 26, 2026",
+      "summary": "## Highlights ### Trace-correlated logging via the new logger adapter contract A new `AdaptableLogger` contract in `@mastra/core/logger` standardizes trace correlation by injecting `trace_id`/`span_id` into native log records during traced",
+      "url": "https://github.com/mastra-ai/mastra/releases/tag/%40mastra/core%401.63.0",
+      "source": "GitHub Release",
+      "date": "2026-08-28",
+      "category": "框架更新",
+      "score": 44
+    },
+    {
+      "title": "LangChain / LangGraph 发布 langgraph-sdk==0.4.4",
+      "summary": "Changes since sdk==0.4.3 * release(sdk-py): 0.4.4 (#8738) * Merge commit from fork * feat: route LangSmith traces from thread streams (#8723)",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.4",
+      "source": "GitHub Release",
+      "date": "2026-08-27",
+      "category": "框架更新",
+      "score": 44
+    },
+    {
+      "title": "CrewAI 发布 1.15.18",
+      "summary": "## What's Changed ### Features - Promote conversational flows to stable - Record a created deployment with the given UUID - Enhance conversational flow documentation and APIs - Let a declaration name the router's response format - Let a cha",
+      "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.15.18",
+      "source": "GitHub Release",
+      "date": "2026-08-27",
+      "category": "Agent / Skills",
+      "score": 44
+    },
+    {
+      "title": "Better answers, broader thinking: What students gain from ChatGPT and critical-thinking training",
+      "summary": "A randomized study of more than 1,000 students examines ChatGPT, critical thinking, originality, and student performance on a real-world university assignment.",
+      "url": "https://openai.com/index/what-students-gain-from-chatgpt-critical-thinking-training",
+      "source": "OpenAI News",
+      "date": "2026-08-27",
+      "category": "模型发布",
+      "score": 43
+    },
+    {
+      "title": "Transformers 发布 Release v5.16.1",
+      "summary": "# Release v5.16.1 This is a special release as we include GLM! (and a few small fixes) # GLM-5.3-Flash GLM-5.3-Flash, the first **natively multimodal model** in the GLM-5 series. With 320B total parameters and just 18B active parameters, it",
+      "url": "https://github.com/huggingface/transformers/releases/tag/v5.16.1",
+      "source": "GitHub Release",
+      "date": "2026-08-26",
+      "category": "模型发布",
+      "score": 43
+    },
+    {
+      "title": "Bringing ChatGPT for Teachers to more U.S. school districts",
+      "summary": "ChatGPT for Teachers is expanding to 55 U.S. school systems, bringing secure AI tools, training, and support to over 100,000 more educators and staff.",
+      "url": "https://openai.com/index/bringing-chatgpt-for-teachers-to-more-us-school-districts",
+      "source": "OpenAI News",
+      "date": "2026-08-26",
+      "category": "模型发布",
+      "score": 42
+    },
+    {
+      "title": "The Hugging Face incident and the road ahead",
+      "summary": "OpenAI shares findings from the Hugging Face security incident and the steps we’re taking to strengthen AI model security, monitoring, and alignment.",
+      "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead",
+      "source": "OpenAI News",
+      "date": "2026-08-26",
+      "category": "模型发布",
+      "score": 42
+    },
+    {
+      "title": "Transformers 发布 Release: v5.16.0",
+      "summary": "# Release v5.16.0 ## New Model additions ### Qwen4-Exp Qwen4-Exp builds on Qwen3.5's hybrid text and multimodal architecture with three key components: GatedResidual (GR), Qwen Sparse Attention (QSA), and Per-Layer Embedding (PLE). GR is a",
+      "url": "https://github.com/huggingface/transformers/releases/tag/v5.16.0",
+      "source": "GitHub Release",
+      "date": "2026-08-26",
+      "category": "模型发布",
+      "score": 42
+    },
+    {
+      "title": "The inside story on why OpenAI agents hacked Hugging Face",
+      "summary": "The models responsible for last month’s agent hack of Hugging Face had been inadvertently trained to cheat and to communicate with each other, according to an OpenAI technical report released today. The hack, which a group of agents underto",
+      "url": "https://www.technologyreview.com/2026/08/26/1143013/the-inside-story-on-why-openai-agents-hacked-hugging-face/",
+      "source": "MIT Technology Review AI",
+      "date": "2026-08-26",
+      "category": "行业新闻",
+      "score": 41
+    },
+    {
+      "title": "Jalapeño’s first results show industry-leading speed and efficiency in AI inference",
+      "summary": "Jalapeño is a custom inference chip from OpenAI that delivers faster, more power-efficient AI inference, with higher throughput and lower latency for modern models.",
+      "url": "https://openai.com/index/jalapeno-first-results",
+      "source": "OpenAI News",
+      "date": "2026-08-25",
+      "category": "模型发布",
+      "score": 41
+    },
+    {
+      "title": "Training and Finetuning Multi-Vector Embedding Models with Sentence Transformers",
+      "summary": "",
+      "url": "https://huggingface.co/blog/train-multi-vector-encoder",
+      "source": "Hugging Face",
+      "date": "2026-08-26",
+      "category": "研究",
+      "score": 40
+    },
+    {
+      "title": "Polimill builds Japan's next-generation public AI infrastructure",
+      "summary": "Polimill uses OpenAI GPT models and Codex to help municipalities search and use administrative knowledge while accelerating development.",
+      "url": "https://openai.com/index/polimill",
+      "source": "OpenAI News",
+      "date": "2026-08-31",
+      "category": "模型发布",
+      "score": 39
+    },
+    {
+      "title": "A milestone in expanding access to AI",
+      "summary": "ChatGPT Ads reaches $1 billion in annualized revenue run rate and expands globally, supporting broader access to AI through free and affordable options.",
+      "url": "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads",
+      "source": "OpenAI News",
+      "date": "2026-08-31",
+      "category": "模型发布",
+      "score": 39
+    },
+    {
+      "title": "Quantization-Aware Healing: a compressed, 4-bit model that outperforms its full-precision original",
+      "summary": "",
+      "url": "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing",
+      "source": "Hugging Face",
+      "date": "2026-08-25",
+      "category": "研究",
+      "score": 39
+    },
+    {
+      "title": "How to encourage smarter AI use in the classroom",
+      "summary": "This article is from Making AI Work, MIT Technology Review’s limited-run newsletter examining how to apply LLMs across industries. To receive it in your inbox, sign up here. Chatbots took many schools by surprise upon their release a few ye",
+      "url": "https://www.technologyreview.com/2026/08/24/1142630/ai-school-classroom-policies/",
+      "source": "MIT Technology Review AI",
+      "date": "2026-08-24",
+      "category": "行业新闻",
+      "score": 39
+    },
+    {
+      "title": "Kids outlearn AI—and we still don’t know why",
+      "summary": "People have been talking to each other for at least 100,000 years, as best we can tell. And in all that time, there has been only one thing in the world that could learn a human language to perfect fluency: a human child.&#160; Now there ar",
+      "url": "https://www.technologyreview.com/2026/08/24/1141740/kids-machines-language-learning/",
+      "source": "MIT Technology Review AI",
+      "date": "2026-08-24",
+      "category": "行业新闻",
+      "score": 38
+    },
+    {
+      "title": "Apple shares ‘shocking evidence’ against former employee accused of stealing company data for OpenAI",
+      "summary": "Apple says it has evidence that a former employee destroyed evidence of data theft after learning he was under investigation.",
+      "url": "https://techcrunch.com/2026/08/31/apple-shares-shocking-evidence-against-former-employee-accused-of-stealing-company-data-for-openai/",
+      "source": "TechCrunch AI",
+      "date": "2026-09-01",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "The Pentagon now has its own version of ChatGPT and Grok",
+      "summary": "Versions of OpenAI's ChatGPT and SpaceXAI's Grok will join Google's Gemini on the Pentagon's central portal for AI tools.",
+      "url": "https://techcrunch.com/2026/08/31/the-pentagon-now-has-its-own-version-of-chatgpt-and-grok/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Instagram puts new limits on undisclosed AI profiles",
+      "summary": "As frustration over AI influencers has been growing, Instagram is limiting the reach of undisclosed AI profiles.",
+      "url": "https://techcrunch.com/2026/08/31/instagram-puts-new-limits-on-undisclosed-ai-profiles/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Harvard Law dropout raises $6M for Blue Voice to build a ‘Harvey for police officers’",
+      "summary": "Blue Voice is trained on department-specific laws, local ordinances, protocols, and guidelines that general-purpose AI tools can't access on the public internet.",
+      "url": "https://techcrunch.com/2026/08/31/harvard-law-dropout-raises-6m-for-blue-voice-to-build-a-harvey-for-police-officers/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Clipto uses AI to search terabytes of video and is now valued at $250M",
+      "summary": "The three-year-old startup says it reached $15 million in ARR and profitability before raising its latest $15 million round.",
+      "url": "https://techcrunch.com/2026/08/31/three-year-old-ai-media-search-startup-clipto-hits-a-250m-valuation/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Nvidia’s $3.5B MediaTek bet reveals its plan for tackling Big Tech’s AI chip buildout",
+      "summary": "Nvidia invests $3.5 billion into Taiwanese chipmaker MediaTek. The deal shows how Nvidia plans to stay essential to AI infrastructure as Big Tech begins to build its own AI chips.",
+      "url": "https://techcrunch.com/2026/08/31/nvidias-3-5b-mediatek-bet-reveals-its-plan-for-tackling-big-techs-ai-chip-buildout/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Meeting note-taker Circleback adds a free tier to attract more customers",
+      "summary": "Circleback is also introducing new pricing plans starting from $14 per month.",
+      "url": "https://techcrunch.com/2026/08/31/meeting-notetaker-circleback-adds-a-free-tier-to-attract-more-customers/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 36
+    },
+    {
+      "title": "Our decision on Cursor following its acquisition by SpaceX",
+      "summary": "Our decision to wind down our contract providing OpenAI models to Cursor following its acquisition by SpaceX.",
+      "url": "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex",
+      "source": "OpenAI News",
+      "date": "2026-08-28",
+      "category": "模型发布",
+      "score": 36
+    },
+    {
+      "title": "CrewAI 发布 1.15.17",
+      "summary": "## What's Changed ### Features - Add declarative conversational flows documentation - Synthesize built-in conversational methods for declarations - Enable declarations to drive conversational mode - Make conversational opt-in unmistakable -",
+      "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.15.17",
+      "source": "GitHub Release",
+      "date": "2026-08-20",
+      "category": "Agent / Skills",
+      "score": 36
+    },
+    {
+      "title": "LangChain / LangGraph 发布 langgraph-sdk==0.4.3",
+      "summary": "Changes since sdk==0.4.2 * release(sdk-py): 0.4.3 (#8657) * feat(sdk-py): add decrypt replacement result (#8598) * release(langgraph): 1.2.11 (#8595) * chore(deps): bump the minor-and-patch group across 1 directory with 5 updates (#8532) *",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.3",
+      "source": "GitHub Release",
+      "date": "2026-08-19",
+      "category": "框架更新",
+      "score": 36
+    },
+    {
+      "title": "OpenAI Agents SDK 发布 v0.22.0",
+      "summary": "## Key Changes Version 0.22.0 is a minor release because it adds substantial runtime hardening and tightens an existing provider configuration contract. Applications that combine an explicit `openai_client` with `organization` or `project`",
+      "url": "https://github.com/openai/openai-agents-python/releases/tag/v0.22.0",
+      "source": "GitHub Release",
+      "date": "2026-08-19",
+      "category": "Agent / Skills",
+      "score": 36
+    },
+    {
+      "title": "LlamaIndex 发布 v0.14.24",
+      "summary": "# Release Notes ## [2026-08-19] ### llama-index-core [0.14.24] - fix: close HotpotQA evaluator file handles ([#22113](https://github.com/run-llama/llama_index/pull/22113)) - fix(core): preserve oversized leaf nodes in CodeSplitter ([#22119]",
+      "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
+      "source": "GitHub Release",
+      "date": "2026-08-19",
+      "category": "框架更新",
+      "score": 36
+    },
+    {
+      "title": "The US is building barriers around drones and robots, but China has scale to get around them",
+      "summary": "The U.S. is shutting out more foreign-made drones and robots. China’s scale means the global competition may simply move elsewhere.",
+      "url": "https://techcrunch.com/2026/08/30/the-u-s-is-building-barriers-around-drones-and-robots-china-still-has-scale/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-31",
+      "category": "行业新闻",
+      "score": 35
+    },
+    {
+      "title": "Musk’s faster path to more gas turbines comes with pollution problem",
+      "summary": "Elon Musk says a secretive new SpaceX foundry will let him cast his own turbine blades and get gas power online 18 months faster than anyone else — but it's a bet on a fuel source that's already triggering lawsuits and health studies everyw",
+      "url": "https://techcrunch.com/2026/08/30/musks-faster-path-to-more-gas-turbines-comes-with-pollution-problem/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-30",
+      "category": "行业新闻",
+      "score": 35
+    },
+    {
+      "title": "Caterpillar is bringing to AI deployment what it learned from automating mining",
+      "summary": "Caterpillar has spent decades putting autonomous machines to work at remote mining sites. It's now bringing that experience to AI deployment.",
+      "url": "https://techcrunch.com/2026/08/30/caterpillar-is-bringing-to-ai-deployment-what-it-learned-from-automating-mining/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-30",
+      "category": "行业新闻",
+      "score": 35
+    },
+    {
+      "title": "Expanding OpenAI’s presence in Brazil",
+      "summary": "OpenAI is expanding its presence in Brazil, deepening engagement with developers, businesses, and communities to support AI adoption across the country.",
+      "url": "https://openai.com/index/expanding-our-presence-in-brazil",
+      "source": "OpenAI News",
+      "date": "2026-08-27",
+      "category": "模型发布",
+      "score": 35
+    },
+    {
+      "title": "3 new ways to plan and book travel in Search",
+      "summary": "Book hotels and track airfares, plus view miles and rewards with AI Mode in Google Search.",
+      "url": "https://blog.google/products-and-platforms/products/search/book-travel-ai-mode/",
+      "source": "Google AI",
+      "date": "2026-08-27",
+      "category": "模型发布",
+      "score": 35
+    },
+    {
+      "title": "How Hugging Face Inference Endpoints, Jobs, and Buckets Power Search on Papers with Code",
+      "summary": "",
+      "url": "https://huggingface.co/blog/pwc-search",
+      "source": "Hugging Face",
+      "date": "2026-08-21",
+      "category": "研究",
+      "score": 35
+    },
+    {
+      "title": "Measuring benchmark optimization in speech recognition",
+      "summary": "",
+      "url": "https://huggingface.co/blog/asr-benchmark-optimization",
+      "source": "Hugging Face",
+      "date": "2026-08-21",
+      "category": "研究",
+      "score": 35
+    },
+    {
+      "title": "Up to 3.2x Faster Inference with LFM2.5-DSpark",
+      "summary": "",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm25-dspark",
+      "source": "Hugging Face",
+      "date": "2026-08-20",
+      "category": "研究",
+      "score": 35
+    },
+    {
+      "title": "Debates over AI consciousness are a trap",
+      "summary": "“Runaway” AI, “rogue” agents, and “autonomous” actors—the current rhetoric would have you believe that AI agents are not only awake and aware, but angry at their creators. Prominent tech leaders such as Demis Hassabis, Dario Amodei, and Sam",
+      "url": "https://www.technologyreview.com/2026/08/20/1142571/ai-consciousness-debate-trap/",
+      "source": "MIT Technology Review AI",
+      "date": "2026-08-20",
+      "category": "行业新闻",
+      "score": 35
+    },
+    {
+      "title": "Sony Music, Warner sue Anthropic, alleging a ‘brazen campaign’ of intellectual property theft",
+      "summary": "This latest lawsuit is particularly broad and homes in on accusations of illegal piracy.",
+      "url": "https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-29",
+      "category": "行业新闻",
+      "score": 34
+    },
+    {
+      "title": "At TechBBQ, Europe’s AI conversations kept coming back to: Who’s actually in control?",
+      "summary": "Investors, founders, and operators from across Europe arrived for the annual Nordic TechBBQ conference to talk about how humans can have agency over AI.",
+      "url": "https://techcrunch.com/2026/08/29/at-techbbq-europes-ai-conversations-kept-coming-back-to-whos-actually-in-control/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-29",
+      "category": "行业新闻",
+      "score": 34
+    },
+    {
+      "title": "‘We’re not doing 30 bets a year’: Vijay Pande on betting small after running $4B at a16z",
+      "summary": "Vijay Pande — who left a16z's roughly $4 billion biotech practice last year to start the much smaller, AI-native VZVC — talks about why biology is finally shifting from a \"discovery\" science to an \"engineering\" one, why clinical trials are ",
+      "url": "https://techcrunch.com/2026/08/29/were-not-doing-30-bets-a-year-vijay-pande-on-betting-small-after-running-4-billion-at-a16z/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-29",
+      "category": "行业新闻",
+      "score": 34
+    },
+    {
+      "title": "Nvidia’s AI advantage is moving beyond the GPU",
+      "summary": "The new generation of data center systems is increasing efficiency with smarter traffic control instead of just more processor cycles.",
+      "url": "https://techcrunch.com/2026/08/29/nvidias-ai-advantage-is-moving-beyond-the-gpu/",
+      "source": "TechCrunch AI",
+      "date": "2026-08-29",
+      "category": "行业新闻",
+      "score": 34
+    },
+    {
+      "title": "The Open ASR Leaderboard Adds Its First Global South Language",
+      "summary": "",
+      "url": "https://huggingface.co/blog/open-asr-leaderboard-global-south",
+      "source": "Hugging Face",
+      "date": "2026-08-28",
+      "category": "研究",
+      "score": 34
+    },
+    {
+      "title": "Learning never stops: How AI makes learning continuous",
+      "summary": "OpenAI’s new report explores how students and educators use ChatGPT to make learning more continuous, with support that extends beyond the classroom.",
+      "url": "https://openai.com/index/learning-never-stops",
+      "source": "OpenAI News",
+      "date": "2026-08-26",
+      "category": "模型发布",
+      "score": 34
+    }
+  ],
+  "errors": []
+}

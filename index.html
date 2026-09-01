@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AI 入门一周通：7 天理解主流模型、完成创业项目，并持续追踪 AI 新闻与工具生态。"
+    />
+    <title>AI 入门一周通</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="AI 入门一周通首页">
+        <span class="brand-mark">A</span>
+        <span>AI 入门一周通</span>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <button class="nav-link active" data-view="home">总览</button>
+        <button class="nav-link" data-view="learn">7 天课程</button>
+        <button class="nav-link" data-view="news">AI 雷达</button>
+        <button class="nav-link" data-view="ecosystem">生态榜</button>
+        <button class="nav-link" data-view="lab">创业实验室</button>
+      </nav>
+      <button id="theme-toggle" class="icon-button" aria-label="切换主题">◐</button>
+    </header>
+
+    <main>
+      <section id="view-home" class="view active">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">从“听说过 AI”到“做出 AI 产品”</p>
+            <h1>用 7 天建立你的<br /><span>AI 全景地图</span></h1>
+            <p class="hero-lead">
+              不从公式开始，而从直觉、实验和真实产品开始。每天 90 分钟，
+              理解模型为什么有效，亲手完成一个属于你的 AI 情报助手。
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button" data-go="learn">开始第 1 天</button>
+              <button class="secondary-button" data-go="news">查看今日 AI 信号</button>
+            </div>
+            <div class="hero-meta">
+              <span>7 天路线</span><span>14 个核心概念</span><span>1 个可运行 MVP</span>
+            </div>
+          </div>
+          <div class="orbit-card" aria-label="AI 学习路线图">
+            <div class="orbit-center">你</div>
+            <div class="orbit orbit-one">
+              <span class="orbit-node node-model">模型</span>
+              <span class="orbit-node node-data">数据</span>
+            </div>
+            <div class="orbit orbit-two">
+              <span class="orbit-node node-rag">RAG</span>
+              <span class="orbit-node node-agent">Agent</span>
+              <span class="orbit-node node-eval">评测</span>
+            </div>
+            <div class="orbit-caption">先建立地图，再深入细节</div>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel progress-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">你的进度</p>
+                <h2>一周冲刺</h2>
+              </div>
+              <strong id="progress-percent">0%</strong>
+            </div>
+            <div class="progress-track"><span id="progress-bar"></span></div>
+            <div id="week-strip" class="week-strip"></div>
+          </article>
+          <article class="panel signal-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">今日信号</p>
+                <h2>值得关注</h2>
+              </div>
+              <button class="text-button" data-go="news">全部 →</button>
+            </div>
+            <div id="home-signals" class="signal-list loading">正在读取今日 AI 信号…</div>
+          </article>
+        </section>
+
+        <section class="principles">
+          <div>
+            <p class="eyebrow">学习方法</p>
+            <h2>每个知识点都经过三步</h2>
+          </div>
+          <div class="principle-grid">
+            <article><span>01</span><h3>讲人话</h3><p>先用生活类比形成直觉，不被术语卡住。</p></article>
+            <article><span>02</span><h3>动手试</h3><p>用提示词、数据和小实验观察模型行为。</p></article>
+            <article><span>03</span><h3>做产品</h3><p>把概念立刻放进一个真实创业场景中。</p></article>
+          </div>
+        </section>
+      </section>
+
+      <section id="view-learn" class="view">
+        <div class="page-intro">
+          <p class="eyebrow">7-Day Learning Sprint</p>
+          <h1>每天 90 分钟，完成一次认知升级</h1>
+          <p>建议按顺序学习。勾选任务后，进度会自动保存在你的浏览器。</p>
+        </div>
+        <div class="learning-layout">
+          <aside id="day-nav" class="day-nav"></aside>
+          <article id="lesson-content" class="lesson-content loading">正在加载课程…</article>
+        </div>
+      </section>
+
+      <section id="view-news" class="view">
+        <div class="page-intro news-intro">
+          <div>
+            <p class="eyebrow">AI Signal Radar</p>
+            <h1>只看会改变你判断的信息</h1>
+            <p>聚合官方发布、模型动态、热门框架、Agent Harness 与 Skills。</p>
+          </div>
+          <div class="freshness-card">
+            <span>最近更新</span>
+            <strong id="news-updated">--</strong>
+            <small>由 GitHub Actions 自动刷新</small>
+          </div>
+        </div>
+        <div id="news-filters" class="filter-row"></div>
+        <div id="news-grid" class="news-grid loading">正在加载新闻…</div>
+      </section>
+
+      <section id="view-ecosystem" class="view">
+        <div class="page-intro">
+          <p class="eyebrow">Ecosystem Watch</p>
+          <h1>主流 AI 工具，不再傻傻分不清</h1>
+          <p>这里的“流行”综合 GitHub 热度、生态成熟度、学习价值与近期活跃度，而非单看 Star。</p>
+        </div>
+        <div class="legend">
+          <span><i class="dot stable"></i>成熟主流</span>
+          <span><i class="dot rising"></i>快速上升</span>
+          <span><i class="dot foundation"></i>基础设施</span>
+        </div>
+        <div id="ecosystem-grid" class="ecosystem-grid loading">正在加载生态榜…</div>
+        <section class="research-note panel">
+          <p class="eyebrow">我们参考了什么</p>
+          <h2>不是复制一个项目，而是组合最佳实践</h2>
+          <div id="research-sources" class="source-grid"></div>
+        </section>
+      </section>
+
+      <section id="view-lab" class="view">
+        <div class="page-intro lab-intro">
+          <div>
+            <p class="eyebrow">Startup Lab</p>
+            <h1>做一个能每天使用的 AI 产品</h1>
+            <p>你的毕业项目：把零散信息压缩成决策信号的「AI Brief Copilot」。</p>
+          </div>
+          <span id="api-status" class="status-pill">检测模型连接中…</span>
+        </div>
+        <div class="lab-grid">
+          <section class="panel product-canvas">
+            <div class="panel-heading"><div><p class="eyebrow">产品画布</p><h2>先定义价值，再写 Prompt</h2></div></div>
+            <label>目标用户<input id="canvas-user" value="需要快速跟进 AI 的创业者" /></label>
+            <label>高频痛点<textarea id="canvas-problem">每天信息太多，不知道哪些变化真正影响产品决策。</textarea></label>
+            <label>承诺的结果<textarea id="canvas-outcome">每天 5 分钟获得 3 条重要信号、影响判断和下一步行动。</textarea></label>
+            <label>成功指标<input id="canvas-metric" value="每周至少有 2 条信息触发真实行动" /></label>
+            <button id="save-canvas" class="secondary-button">保存产品画布</button>
+          </section>
+          <section class="panel playground">
+            <div class="panel-heading">
+              <div><p class="eyebrow">MVP Playground</p><h2>生成你的情报简报</h2></div>
+              <button id="load-demo" class="text-button">载入示例</button>
+            </div>
+            <label>今天收集到的素材<textarea id="brief-input" rows="11" placeholder="粘贴 3～10 条新闻标题、摘要或链接…"></textarea></label>
+            <label>你最关心的方向<input id="brief-focus" value="AI 产品、Agent、开发者工具" /></label>
+            <button id="generate-brief" class="primary-button wide">生成决策简报</button>
+            <div id="brief-output" class="brief-output">
+              <p>配置 API 后会调用真实模型。未配置时，你仍可使用“载入示例”体验产品流程。</p>
+            </div>
+          </section>
+        </div>
+        <section class="panel architecture-panel">
+          <p class="eyebrow">你正在构建的系统</p>
+          <div class="architecture-flow">
+            <span>官方 RSS / GitHub</span><b>→</b><span>清洗与去重</span><b>→</b><span>LLM 分析</span><b>→</b><span>行动建议</span>
+          </div>
+          <p class="muted">这就是一个最小 RAG/Agent 产品：获取上下文 → 组织提示 → 调用模型 → 输出可评测结果。</p>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <span>AI 入门一周通 · Learn → Build → Decide</span>
+      <a href="https://github.com/Leolewin/AI-leanring" target="_blank" rel="noreferrer">GitHub</a>
+    </footer>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+{
+  "updatedAt": "2026-09-01T12:43:50.263926+00:00",
+  "frameworks": [
+    {
+      "name": "LangChain / LangGraph",
+      "category": "Agent 工程平台",
+      "status": "stable",
+      "stars": 40851,
+      "language": "Python / TypeScript",
+      "bestFor": "复杂工作流",
+      "description": "生态最广的 LLM 应用工具集；LangGraph 用图和状态构建可恢复、可人工介入的 Agent。",
+      "tags": [
+        "Agent",
+        "RAG",
+        "Workflow",
+        "Observability"
+      ],
+      "url": "https://github.com/langchain-ai/langgraph"
+    },
+    {
+      "name": "OpenAI Agents SDK",
+      "category": "轻量 Agent SDK",
+      "status": "rising",
+      "stars": 29119,
+      "language": "Python / TypeScript",
+      "bestFor": "快速上手",
+      "description": "以 Agent、Tool、Handoff、Guardrail 和 Tracing 为核心，概念少，适合学习现代 Agent 基础结构。",
+      "tags": [
+        "Tools",
+        "Handoff",
+        "Tracing",
+        "Guardrails"
+      ],
+      "url": "https://github.com/openai/openai-agents-python"
+    },
+    {
+      "name": "AutoGen",
+      "category": "多 Agent 框架",
+      "status": "stable",
+      "stars": 60735,
+      "language": "Python / .NET",
+      "bestFor": "多角色协作",
+      "description": "微软开源的 Agentic AI 框架，强调事件驱动、多 Agent 协作以及可扩展的运行时。",
+      "tags": [
+        "Multi-agent",
+        "Events",
+        "Tools",
+        "Enterprise"
+      ],
+      "url": "https://github.com/microsoft/autogen"
+    },
+    {
+      "name": "CrewAI",
+      "category": "多 Agent 编排",
+      "status": "stable",
+      "stars": 57943,
+      "language": "Python",
+      "bestFor": "角色式团队",
+      "description": "用角色、任务、Crew 和 Flow 组织 Agent 团队，直觉化程度高，适合快速演示协作型场景。",
+      "tags": [
+        "Roles",
+        "Crews",
+        "Flows",
+        "Automation"
+      ],
+      "url": "https://github.com/crewAIInc/crewAI"
+    },
+    {
+      "name": "LlamaIndex",
+      "category": "数据与 RAG",
+      "status": "stable",
+      "stars": 51962,
+      "language": "Python / TypeScript",
+      "bestFor": "知识型应用",
+      "description": "围绕企业数据接入、索引、检索与文档 Agent 构建的成熟框架，RAG 场景尤其强。",
+      "tags": [
+        "RAG",
+        "Data",
+        "Index",
+        "Document Agent"
+      ],
+      "url": "https://github.com/run-llama/llama_index"
+    },
+    {
+      "name": "Mastra",
+      "category": "TypeScript Agent",
+      "status": "rising",
+      "stars": 27609,
+      "language": "TypeScript",
+      "bestFor": "Web 产品团队",
+      "description": "面向 TypeScript 开发者的生产级 AI 框架，覆盖 Agent、工作流、RAG、记忆、评测和观测。",
+      "tags": [
+        "TypeScript",
+        "Workflow",
+        "Memory",
+        "Evals"
+      ],
+      "url": "https://github.com/mastra-ai/mastra"
+    },
+    {
+      "name": "Vercel AI SDK",
+      "category": "AI 应用 UI / SDK",
+      "status": "stable",
+      "stars": 26523,
+      "language": "TypeScript",
+      "bestFor": "流式 Web AI",
+      "description": "统一多模型调用与前端流式交互，适合构建聊天、结构化生成和工具调用的现代 Web 产品。",
+      "tags": [
+        "UI",
+        "Streaming",
+        "Multi-provider",
+        "Tools"
+      ],
+      "url": "https://github.com/vercel/ai"
+    },
+    {
+      "name": "Transformers",
+      "category": "模型基础设施",
+      "status": "foundation",
+      "stars": 164690,
+      "language": "Python",
+      "bestFor": "模型使用与训练",
+      "description": "Hugging Face 的核心模型库，覆盖文本、视觉、音频与多模态，是理解和使用开源模型的基础设施。",
+      "tags": [
+        "Models",
+        "Training",
+        "Inference",
+        "Multimodal"
+      ],
+      "url": "https://github.com/huggingface/transformers"
+    }
+  ],
+  "references": [
+    {
+      "name": "Microsoft Generative AI for Beginners",
+      "reason": "借鉴 Learn / Build 交替、面向初学者和项目驱动的课程结构。",
+      "url": "https://github.com/microsoft/generative-ai-for-beginners"
+    },
+    {
+      "name": "mlabonne/llm-course",
+      "reason": "借鉴从 LLM 基础到工程与科学方向的全景路线。",
+      "url": "https://github.com/mlabonne/llm-course"
+    },
+    {
+      "name": "TrendRadar",
+      "reason": "借鉴多源聚合、关键词筛选、自动简报与 GitHub Actions 部署。",
+      "url": "https://github.com/sansan0/TrendRadar"
+    },
+    {
+      "name": "Horizon",
+      "reason": "借鉴双语 AI 新闻雷达和每日简报的低噪声理念。",
+      "url": "https://github.com/Thysrael/Horizon"
+    },
+    {
+      "name": "Awesome LLM Apps",
+      "reason": "借鉴从单文件 Starter Agent 到高级 Agent 与 Skills 的实践阶梯。",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps"
+    },
+    {
+      "name": "LLMs from Scratch",
+      "reason": "借鉴用可视化和动手实现解释 Token、Attention 与训练流程。",
+      "url": "https://github.com/rasbt/LLMs-from-scratch"
+    }
+  ]
+}

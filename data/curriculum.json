@@ -1,0 +1,223 @@
+{
+  "title": "AI 入门一周通",
+  "version": "2026.09",
+  "days": [
+    {
+      "day": 1,
+      "shortTitle": "看懂 AI 地图",
+      "theme": "建立全景",
+      "title": "AI、机器学习、大模型，到底是什么关系？",
+      "intro": "第一天不写代码。你会建立一张足够准确的地图，知道聊天机器人、生成式 AI、LLM 和 Agent 分别处在哪一层。",
+      "duration": "75–90 分钟",
+      "outcome": "能用自己的话解释 LLM",
+      "bigIdea": {
+        "title": "大模型是“根据上下文预测下一个 Token 的概率机器”",
+        "explanation": "它不是数据库，也不是拥有固定答案的百科。训练让模型从海量样本中压缩语言、知识与推理模式；生成时，它根据已有上下文逐步选择下一个 Token。",
+        "analogy": "一个读过极多文本、非常擅长接龙的人。它没有翻书找原句，而是凭训练形成的模式继续写。"
+      },
+      "concepts": [
+        { "name": "AI", "explanation": "让机器完成通常需要人类智能的任务，是最大的集合。" },
+        { "name": "机器学习", "explanation": "不硬编码所有规则，而是让机器从数据中学出规律。" },
+        { "name": "生成式 AI", "explanation": "目标不是只做分类，而是生成文本、图像、音频、视频或代码。" },
+        { "name": "LLM", "explanation": "在大量文本上训练、能理解并生成语言的大型神经网络。" }
+      ],
+      "lab": {
+        "title": "同一问题，问模型三次",
+        "instructions": "任选一个聊天模型，连续三次问“用 100 字解释为什么天空是蓝色的”，然后加入不同角色、受众和格式要求再次提问。",
+        "observe": "答案不是从固定数据库复制；上下文、随机性和约束会共同改变输出。"
+      },
+      "tasks": ["画出 AI → 机器学习 → 深度学习 → 生成式 AI → LLM 的关系", "用自己的话解释 Token 与“预测下一个词”", "完成三轮提示词对比实验"],
+      "quiz": {
+        "question": "LLM 生成回答时，最核心的动作是什么？",
+        "options": ["在数据库中检索完整答案", "根据上下文预测下一个 Token", "复制训练数据中的最近段落", "先理解真相再翻译成人话"],
+        "answer": 1
+      }
+    },
+    {
+      "day": 2,
+      "shortTitle": "拆开 Transformer",
+      "theme": "理解原理",
+      "title": "Token、向量和注意力：模型如何“读懂”一句话",
+      "intro": "你不需要推导矩阵公式，但要理解文字如何变成数字，以及 Attention 为什么让 Transformer 成为今天大模型的基础。",
+      "duration": "90 分钟",
+      "outcome": "能解释 Embedding 与 Attention",
+      "bigIdea": {
+        "title": "模型不认识文字，只认识向量之间的关系",
+        "explanation": "文本先被切成 Token，再映射成高维向量。注意力机制让每个 Token 动态判断：为了理解当前内容，应该重点参考上下文里的哪些 Token。",
+        "analogy": "开会时每个人都能听见所有人，但讨论不同问题时，会把注意力放在不同发言者身上。"
+      },
+      "concepts": [
+        { "name": "Tokenization", "explanation": "把文本切成模型词表里的单位；一个汉字、词或标点都可能成为 Token。" },
+        { "name": "Embedding", "explanation": "把离散 Token 映射到高维空间，语义接近的内容通常位置也更接近。" },
+        { "name": "Attention", "explanation": "为上下文不同位置动态分配权重，建立远距离关系。" },
+        { "name": "Transformer", "explanation": "以注意力为核心、可高效并行训练的神经网络架构。" }
+      ],
+      "lab": {
+        "title": "代词消歧实验",
+        "instructions": "让模型分析“苹果放不进盒子，因为它太大了”和“苹果放不进盒子，因为它太小了”中的“它”分别指什么，并要求标出判断依赖的词。",
+        "observe": "同一个 Token 的含义不是固定的，它需要根据上下文关系动态确定。"
+      },
+      "tasks": ["解释文本如何从 Token 变成向量", "完成两组代词消歧实验", "画一张简化的 Transformer 输入→输出流程图"],
+      "quiz": {
+        "question": "Embedding 最接近下面哪种描述？",
+        "options": ["把概念放进有语义距离的数字地图", "给每个单词查字典定义", "把文本压缩成 ZIP 文件", "模型输出后的评分器"],
+        "answer": 0
+      }
+    },
+    {
+      "day": 3,
+      "shortTitle": "模型如何练成",
+      "theme": "训练与推理",
+      "title": "预训练、后训练、推理：为什么同一底座有不同性格",
+      "intro": "今天理解模型从“会续写”到“会对话”的完整训练链条，并学会区分参数、上下文窗口、温度和幻觉。",
+      "duration": "90 分钟",
+      "outcome": "会看懂模型发布说明",
+      "bigIdea": {
+        "title": "能力主要来自预训练，行为主要来自后训练",
+        "explanation": "预训练吸收语言和世界模式；指令微调教会模型按要求回答；偏好优化和强化学习让回答更有帮助、更安全。推理阶段则使用已训练的参数处理你的上下文。",
+        "analogy": "预训练像通识教育，指令微调像岗位培训，偏好优化像服务规范，上线回答就是实际工作。"
+      },
+      "concepts": [
+        { "name": "Pre-training", "explanation": "用大规模数据做下一个 Token 预测，形成底层能力。" },
+        { "name": "Post-training", "explanation": "通过指令数据、偏好数据与强化学习塑造模型行为。" },
+        { "name": "Inference", "explanation": "模型参数固定后，读取上下文并逐 Token 生成结果的过程。" },
+        { "name": "Hallucination", "explanation": "模型生成了语言上合理、事实却错误或无依据的内容。" }
+      ],
+      "lab": {
+        "title": "参数控制实验",
+        "instructions": "在支持参数设置的平台上，用同一提示分别设置低温度和高温度生成产品名；再比较短上下文与提供充分背景的回答。",
+        "observe": "温度影响多样性，不等于智商；上下文增加可用信息，但不会自动保证事实正确。"
+      },
+      "tasks": ["区分预训练、后训练和推理", "比较至少两个主流模型的上下文、价格和定位", "记录一次模型幻觉并设计验证方法"],
+      "quiz": {
+        "question": "降低 temperature 通常会带来什么？",
+        "options": ["模型获得更多知识", "输出更稳定、保守", "上下文窗口变长", "彻底消除幻觉"],
+        "answer": 1
+      }
+    },
+    {
+      "day": 4,
+      "shortTitle": "Prompt 与评测",
+      "theme": "可靠输出",
+      "title": "好 Prompt 不是咒语，而是清晰的任务接口",
+      "intro": "学会把目标、背景、输入、约束和输出格式写成可重复使用的提示，并用小型 Eval 判断改动是否真的更好。",
+      "duration": "90 分钟",
+      "outcome": "能设计可评测的提示词",
+      "bigIdea": {
+        "title": "Prompt 是自然语言写成的函数签名",
+        "explanation": "优秀提示词明确输入和输出契约，并提供必要上下文、边界和评价标准。真正专业的改进不是“感觉更好”，而是在固定测试集上比较。",
+        "analogy": "给同事派活：目标、资料、截止条件和交付格式越明确，返工越少。"
+      },
+      "concepts": [
+        { "name": "System Prompt", "explanation": "定义模型角色、长期规则、边界与行为优先级。" },
+        { "name": "Few-shot", "explanation": "通过少量输入输出示例，让模型模仿任务模式。" },
+        { "name": "Structured Output", "explanation": "要求 JSON 等固定结构，方便程序稳定消费结果。" },
+        { "name": "Eval", "explanation": "用代表性样本和评分标准持续测量质量、成本、延迟与安全。" }
+      ],
+      "lab": {
+        "title": "做一个五题 Eval",
+        "instructions": "为“新闻重要性分类”写 5 条样本和期望结果。先用模糊提示，再用包含标准、示例和输出格式的提示，对比正确率。",
+        "observe": "提示词优化必须面对固定样本，否则很容易只对眼前例子过拟合。"
+      },
+      "tasks": ["用目标/背景/输入/约束/格式重写一个 Prompt", "建立包含 5 个案例的小型 Eval", "记录质量、速度与成本三个指标"],
+      "quiz": {
+        "question": "判断 Prompt 改进是否有效，最可靠的方法是？",
+        "options": ["看起来更长", "换一个更贵的模型", "在固定测试集上按标准比较", "加入更多形容词"],
+        "answer": 2
+      }
+    },
+    {
+      "day": 5,
+      "shortTitle": "RAG 与工具",
+      "theme": "连接外部世界",
+      "title": "模型不知道最新信息，RAG 和 Tool Use 来补齐",
+      "intro": "今天把“模型本身会什么”和“系统给模型什么”分开，理解搜索、向量库、函数调用和 MCP 的角色。",
+      "duration": "90 分钟",
+      "outcome": "能画出一个 RAG 系统",
+      "bigIdea": {
+        "title": "不要强迫模型记住一切，要在需要时给它证据和工具",
+        "explanation": "RAG 在回答前检索相关资料并放入上下文；Tool Use 让模型调用搜索、数据库、计算器或业务 API。模型负责判断和表达，外部系统负责事实和行动。",
+        "analogy": "闭卷考试变成开卷考试，还允许使用计算器和查业务系统。"
+      },
+      "concepts": [
+        { "name": "RAG", "explanation": "Retrieval-Augmented Generation：先检索，再把证据交给模型生成答案。" },
+        { "name": "Vector Search", "explanation": "按语义相似度寻找相关内容，而不只匹配关键词。" },
+        { "name": "Tool Calling", "explanation": "模型选择工具并生成参数，程序执行后再把结果返回模型。" },
+        { "name": "MCP", "explanation": "统一 AI 应用连接工具、数据和提示资源的开放协议。" }
+      ],
+      "lab": {
+        "title": "手工模拟一次 RAG",
+        "instructions": "找三篇产品资料，先直接问模型一个细节问题；再把最相关段落和来源放进提示，要求只依据资料回答并引用证据。",
+        "observe": "RAG 的价值来自相关、可靠、可引用的上下文，不是简单把更多文字塞给模型。"
+      },
+      "tasks": ["画出问题→检索→上下文→生成→引用的流程", "完成一次闭卷与开卷回答对比", "列出你的项目需要的 3 个外部工具"],
+      "quiz": {
+        "question": "RAG 最主要解决什么问题？",
+        "options": ["让模型参数变多", "给模型提供相关、可更新的外部证据", "替代所有数据库", "让输出更有创造力"],
+        "answer": 1
+      }
+    },
+    {
+      "day": 6,
+      "shortTitle": "Agent 与 Harness",
+      "theme": "从回答到行动",
+      "title": "Agent、Workflow、Harness、Skill：AI 如何连续完成任务",
+      "intro": "理解当下最容易混淆的四个词，并学会判断什么时候需要 Agent，什么时候普通工作流更可靠。",
+      "duration": "90 分钟",
+      "outcome": "能设计有边界的 Agent",
+      "bigIdea": {
+        "title": "Agent = 模型 + 工具 + 状态 + 循环 + 停止条件",
+        "explanation": "模型观察当前状态，决定下一步，调用工具，读取结果，再继续，直到达成目标或触发边界。Harness 提供运行环境、上下文管理、权限、日志和协作机制；Skill 则封装可复用能力。",
+        "analogy": "模型像员工，工具是办公软件，工作流是 SOP，Harness 是公司制度与办公环境，Skill 是岗位手册。"
+      },
+      "concepts": [
+        { "name": "Workflow", "explanation": "路径主要由开发者预先定义，稳定、可预测、易评测。" },
+        { "name": "Agent", "explanation": "由模型根据中间结果动态选择下一步，灵活但更难控制。" },
+        { "name": "Harness", "explanation": "承载 Agent 的上下文、工具权限、记忆、子任务、日志和生命周期。" },
+        { "name": "Skill", "explanation": "带说明、流程和资源的可复用任务能力，可被 Agent 按需调用。" }
+      ],
+      "lab": {
+        "title": "把任务拆成 Workflow 和 Agent 两版",
+        "instructions": "选择“制作每日 AI 简报”，先画固定步骤版，再画允许模型自主选择搜索来源和追问方向的 Agent 版，标出每个风险点和人工确认点。",
+        "observe": "越开放的任务越适合 Agent；越高风险、越确定的流程越应增加约束或直接使用 Workflow。"
+      },
+      "tasks": ["区分 Agent、Workflow、Harness 和 Skill", "设计一个包含停止条件的 Agent 循环", "给高风险工具增加一次人工确认"],
+      "quiz": {
+        "question": "下面哪个任务最不适合完全自主的 Agent？",
+        "options": ["整理公开新闻", "探索多个研究方向", "未经确认直接转账", "为旅行生成备选路线"],
+        "answer": 2
+      }
+    },
+    {
+      "day": 7,
+      "shortTitle": "发布创业 MVP",
+      "theme": "产品化",
+      "title": "从 Demo 到 Startup：发布你的 AI Brief Copilot",
+      "intro": "最后一天把前六天的知识连起来：明确用户痛点、搭建最小数据流、连接模型、定义评测，并找到第一个真实用户。",
+      "duration": "120 分钟",
+      "outcome": "完成一个可演示的 AI MVP",
+      "bigIdea": {
+        "title": "AI 创业的壁垒通常不只是模型，而是闭环",
+        "explanation": "真正有价值的产品把独特用户场景、持续数据、工作流集成、反馈和评测连成闭环。模型会快速商品化，但对用户问题的理解和可持续改进不会自动出现。",
+        "analogy": "发动机人人可以买，真正不同的是你造什么车、为谁造、在哪条路上跑，以及如何不断调校。"
+      },
+      "concepts": [
+        { "name": "Problem–Solution Fit", "explanation": "先验证痛点是否高频、昂贵、迫切，再讨论模型和功能。" },
+        { "name": "Human in the Loop", "explanation": "在高风险或不确定节点保留人工审核、纠正和授权。" },
+        { "name": "Observability", "explanation": "记录输入、输出、工具调用、延迟、成本和用户反馈。" },
+        { "name": "Feedback Loop", "explanation": "把真实使用中的好坏样本持续加入 Eval，驱动产品改进。" }
+      ],
+      "lab": {
+        "title": "完成本系统的创业实验室",
+        "instructions": "打开“创业实验室”，填写产品画布，粘贴今日素材，连接一个 OpenAI-compatible 模型生成简报。找一位真实用户阅读，并记录他是否采取行动。",
+        "observe": "用户是否改变决策，比回答是否看起来聪明更重要。"
+      },
+      "tasks": ["填写产品画布并定义一个核心指标", "用真实模型生成第一份决策简报", "邀请一位用户试用并记录反馈", "把失败案例加入你的下一轮 Eval"],
+      "quiz": {
+        "question": "AI MVP 最值得优先验证的是？",
+        "options": ["Logo 是否精致", "使用了多少个 Agent", "是否解决真实用户的高频问题", "模型参数是否最大"],
+        "answer": 2
+      }
+    }
+  ]
+}
