@@ -4,7 +4,7 @@
 
 ## 你会得到什么
 
-- **7 天系统课程**：从 Token、Embedding、Transformer，到训练、Prompt、RAG、Agent、Harness、Eval 和 AI 产品化。
+- **7 天真实课程**：每一天都有经过核对的开源章节、可运行 Notebook、浏览器实验、学习产出和明确通过标准。
 - **交互式学习进度**：任务清单和产品画布保存在浏览器本地。
 - **AI 信号雷达**：聚合模型厂商、AI 媒体、Hugging Face 和主流 GitHub 项目发布。
 - **生态榜**：持续更新 LangGraph、OpenAI Agents SDK、AutoGen、CrewAI、LlamaIndex、Mastra、Vercel AI SDK 和 Transformers。
@@ -53,17 +53,39 @@ python3 scripts/update_news.py
 
 单个来源失败会明确记录到 `errors`；如果所有来源都失败，脚本退出并保留上一次有效数据。
 
-## 一周使用建议
+## Learning 模块不是路线图展示
+
+课程遵循 `Read → Run → Explain → Build → Verify`：
+
+1. **Read**：阅读指定的权威章节，而不是只看本站摘要。
+2. **Run**：实际运行 Colab、Notebook 或浏览器实验。
+3. **Explain**：用自己的话解释机制，暴露“看懂了但讲不出”的假理解。
+4. **Build**：每天产生一份可以保留的学习产出。
+5. **Verify**：使用通过标准和理解测试验收，而不是只勾选“读完”。
+
+主要课程来源：
+
+- [Microsoft Generative AI for Beginners](https://github.com/microsoft/generative-ai-for-beginners)
+- [Sebastian Raschka: LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch)
+- [Andrej Karpathy: Neural Networks Zero to Hero](https://github.com/karpathy/nn-zero-to-hero)
+- [Anthropic Interactive Prompt Engineering Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
+- [Hugging Face Agents Course](https://github.com/huggingface/agents-course)
+- [OpenAI Cookbook](https://github.com/openai/openai-cookbook)
+- [HumanLayer: 12 Factor Agents](https://github.com/humanlayer/12-factor-agents)
+
+浏览器实验用于建立直觉，并明确标注哪些是教学模型、哪些是真实算法。它们不能替代上游课程中的真实 PyTorch、模型 API 和 Agent Framework 练习。
+
+## 一周课程与交付物
 
 | 天 | 主题 | 最终产出 |
 |---|---|---|
-| 1 | AI 与 LLM 全景 | 能用自己的话解释大模型 |
-| 2 | Token、向量、Attention | 画出 Transformer 信息流 |
-| 3 | 预训练、后训练、推理 | 会读模型发布说明 |
-| 4 | Prompt 与 Eval | 建立第一个五题评测集 |
-| 5 | RAG、工具与 MCP | 设计一个有证据的问答流 |
-| 6 | Agent、Workflow、Harness、Skill | 设计有停止条件的 Agent |
-| 7 | Startup MVP | 发布 AI Brief Copilot 并找首位用户 |
+| 1 | 下一个 Token 与语言模型 | 一页纸语言模型机制解释 |
+| 2 | Token、Embedding、Attention | Transformer Block 数据流图 |
+| 3 | Loss、训练、验证与采样 | 训练/推理阶段对照表 |
+| 4 | Prompt、Schema 与 Eval | 10 条真实 Prompt Eval 数据 |
+| 5 | 检索、RAG 与引用 | 8 条查询的 RAG 故障分析表 |
+| 6 | Agent Loop、工具与 Harness | 带状态、预算和停止条件的 Agent 设计 |
+| 7 | Startup MVP | 可运行产品、Eval 结果和真实用户反馈 |
 
 ## 调研依据
 
@@ -83,6 +105,7 @@ python3 scripts/update_news.py
 ├── index.html                  # 单页学习应用
 ├── styles.css                 # 响应式视觉系统
 ├── app.js                     # 课程、新闻、进度与实验室交互
+├── learning-labs.js           # 7 个可操作的 AI 原理与系统实验
 ├── server.py                  # 静态服务 + 模型 API 安全代理
 ├── data/
 │   ├── curriculum.json        # 7 天课程

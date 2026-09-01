@@ -6,7 +6,7 @@ const state = {
   activeDay: 1,
   newsFilter: "全部",
   techniqueFilter: "全部",
-  progress: JSON.parse(localStorage.getItem("ai-week-progress") || "{}"),
+  progress: JSON.parse(localStorage.getItem("ai-week-progress-v2") || "{}"),
 };
 
 const categoryLabels = ["全部", "模型发布", "行业新闻", "框架更新", "Agent / Skills", "研究"];
@@ -77,25 +77,61 @@ function renderLesson() {
       <p class="eyebrow">DAY ${day.day} · ${escapeHtml(day.theme)}</p>
       <h2>${escapeHtml(day.title)}</h2>
       <p>${escapeHtml(day.intro)}</p>
-      <div class="lesson-stats"><span>⏱ ${escapeHtml(day.duration)}</span><span>🎯 ${escapeHtml(day.outcome)}</span></div>
+      <div class="lesson-stats"><span>⏱ ${escapeHtml(day.duration)}</span><span>🎯 ${escapeHtml(day.outcome)}</span><span>📦 ${escapeHtml(day.deliverable.title)}</span></div>
     </section>
     <section class="lesson-section">
-      <p class="eyebrow">核心直觉</p>
-      <h3>${escapeHtml(day.bigIdea.title)}</h3>
-      <p>${escapeHtml(day.bigIdea.explanation)}</p>
-      <div class="analogy"><strong>把它想成：</strong> ${escapeHtml(day.bigIdea.analogy)}</div>
-    </section>
-    <section class="lesson-section">
-      <p class="eyebrow">今天掌握</p>
-      <div class="concept-grid">
-        ${day.concepts.map((concept) => `<article class="concept-card"><strong>${escapeHtml(concept.name)}</strong><p>${escapeHtml(concept.explanation)}</p></article>`).join("")}
+      <p class="eyebrow">先建立准确理解</p>
+      <h3>${escapeHtml(day.lessonQuestion)}</h3>
+      <div class="lesson-reading">
+        ${day.explanations
+          .map(
+            (section) => `
+              <article>
+                <h4>${escapeHtml(section.title)}</h4>
+                ${section.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+                ${section.check ? `<div class="understanding-check"><strong>理解检查：</strong>${escapeHtml(section.check)}</div>` : ""}
+              </article>`,
+          )
+          .join("")}
       </div>
     </section>
     <section class="lesson-section">
-      <p class="eyebrow">动手实验</p>
+      <p class="eyebrow">真实开源课程</p>
+      <h3>今天必须完成的学习材料</h3>
+      <div class="resource-list">
+        ${day.resources
+          .map(
+            (resource) => `
+              <a class="resource-card" href="${escapeHtml(resource.url)}" target="_blank" rel="noreferrer">
+                <div class="resource-type">${escapeHtml(resource.type)}</div>
+                <div>
+                  <strong>${escapeHtml(resource.title)}</strong>
+                  <p>${escapeHtml(resource.source)} · ${escapeHtml(resource.duration)}</p>
+                  <small>${escapeHtml(resource.instruction)}</small>
+                </div>
+                <span>↗</span>
+              </a>`,
+          )
+          .join("")}
+      </div>
+    </section>
+    <section class="lesson-section">
+      <p class="eyebrow">浏览器实验 · 不是演示截图</p>
       <h3>${escapeHtml(day.lab.title)}</h3>
       <p>${escapeHtml(day.lab.instructions)}</p>
-      <div class="analogy"><strong>观察重点：</strong> ${escapeHtml(day.lab.observe)}</div>
+      <div id="interactive-lab">${window.LearningLabs.render(day.lab, day.day)}</div>
+      <div class="analogy"><strong>你必须解释：</strong> ${escapeHtml(day.lab.explain)}</div>
+    </section>
+    <section class="lesson-section deliverable-section">
+      <p class="eyebrow">今日学习产出</p>
+      <h3>${escapeHtml(day.deliverable.title)}</h3>
+      <p>${escapeHtml(day.deliverable.description)}</p>
+      <div class="deliverable-template">
+        <strong>提交模板</strong>
+        <pre>${escapeHtml(day.deliverable.template)}</pre>
+      </div>
+      <h4>通过标准</h4>
+      <ul class="pass-criteria">${day.deliverable.passCriteria.map((criterion) => `<li>${escapeHtml(criterion)}</li>`).join("")}</ul>
     </section>
     <section class="lesson-section">
       <p class="eyebrow">完成清单</p>
@@ -109,12 +145,14 @@ function renderLesson() {
       </div>
     </section>
     <section class="lesson-section">
-      <p class="eyebrow">一分钟自测</p>
+      <p class="eyebrow">理解验收</p>
       <h3>${escapeHtml(day.quiz.question)}</h3>
       <div class="quiz">
         ${day.quiz.options.map((option, index) => `<button data-answer="${index}" data-correct="${day.quiz.answer}">${escapeHtml(option)}</button>`).join("")}
       </div>
+      <div class="quiz-explanation" hidden>${escapeHtml(day.quiz.explanation)}</div>
     </section>`;
+  window.LearningLabs.activate(day.lab, day.day);
 }
 
 function renderNews() {
@@ -321,14 +359,16 @@ function bindEvents() {
     if (answer) {
       answer.parentElement.querySelectorAll("button").forEach((button) => button.classList.remove("correct", "wrong"));
       answer.classList.add(Number(answer.dataset.answer) === Number(answer.dataset.correct) ? "correct" : "wrong");
-      if (answer.classList.contains("correct")) showToast("答对了，你已经抓住核心");
+      const explanation = answer.closest(".lesson-section").querySelector(".quiz-explanation");
+      explanation.hidden = false;
+      if (answer.classList.contains("correct")) showToast("答对了，请继续读解释");
     }
   });
 
   document.addEventListener("change", (event) => {
     if (!event.target.matches("[data-task]")) return;
     state.progress[event.target.dataset.task] = event.target.checked;
-    localStorage.setItem("ai-week-progress", JSON.stringify(state.progress));
+    localStorage.setItem("ai-week-progress-v2", JSON.stringify(state.progress));
     renderProgress();
     renderDayNav();
   });

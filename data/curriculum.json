@@ -1,222 +1,768 @@
 {
-  "title": "AI 入门一周通",
-  "version": "2026.09",
+  "title": "AI 入门一周通：真实学习版",
+  "version": "2026.09.2",
+  "method": "Read → Run → Explain → Build → Verify",
   "days": [
     {
       "day": 1,
-      "shortTitle": "看懂 AI 地图",
-      "theme": "建立全景",
-      "title": "AI、机器学习、大模型，到底是什么关系？",
-      "intro": "第一天不写代码。你会建立一张足够准确的地图，知道聊天机器人、生成式 AI、LLM 和 Agent 分别处在哪一层。",
-      "duration": "75–90 分钟",
-      "outcome": "能用自己的话解释 LLM",
-      "bigIdea": {
-        "title": "大模型是“根据上下文预测下一个 Token 的概率机器”",
-        "explanation": "它不是数据库，也不是拥有固定答案的百科。训练让模型从海量样本中压缩语言、知识与推理模式；生成时，它根据已有上下文逐步选择下一个 Token。",
-        "analogy": "一个读过极多文本、非常擅长接龙的人。它没有翻书找原句，而是凭训练形成的模式继续写。"
-      },
-      "concepts": [
-        { "name": "AI", "explanation": "让机器完成通常需要人类智能的任务，是最大的集合。" },
-        { "name": "机器学习", "explanation": "不硬编码所有规则，而是让机器从数据中学出规律。" },
-        { "name": "生成式 AI", "explanation": "目标不是只做分类，而是生成文本、图像、音频、视频或代码。" },
-        { "name": "LLM", "explanation": "在大量文本上训练、能理解并生成语言的大型神经网络。" }
+      "shortTitle": "亲眼看见语言模型",
+      "theme": "从预测开始",
+      "title": "不要先背术语：亲手理解模型究竟在做什么",
+      "intro": "今天的目标不是记住“AI、ML、LLM”的定义，而是通过真实课程和一个可操作实验，理解语言模型训练、预测和生成之间的关系。",
+      "duration": "2 小时",
+      "outcome": "能解释语言模型为何是概率模型，以及训练和生成分别发生什么",
+      "lessonQuestion": "一个只会预测下一个 Token 的系统，为什么最后能对话、写代码和回答问题？",
+      "explanations": [
+        {
+          "title": "第一层：模型学习的不是答案表，而是条件概率",
+          "paragraphs": [
+            "语言模型接收一段上下文，并为词表中的每个候选 Token 计算概率。生成一句话，就是不断把刚选出的 Token 放回上下文，再预测下一步。这个循环本身并不保证事实正确，它只保证输出在模型学到的分布中“像是合理的延续”。",
+            "训练时，我们知道文本中真实的下一个 Token，因此可以比较模型预测与真实答案的差距，这个差距叫 Loss。优化器反复调整参数，让正确 Token 的概率变高。模型能力来自数十亿次这种微小调整，而不是开发者手写知识规则。"
+          ],
+          "check": "如果模型预测“北京是中国的___”，它输出的首先是一组候选概率，而不是直接在数据库里查到“首都”。"
+        },
+        {
+          "title": "第二层：规模让简单目标产生复杂能力",
+          "paragraphs": [
+            "为了更准确地预测后文，模型必须压缩很多规律：语法、实体关系、常识、代码结构、文体以及一定程度的推理模式。参数可以理解为训练后形成的大量数值连接，它们共同编码这些规律，但没有某个参数单独存放“北京是首都”。",
+            "这也解释了幻觉：训练目标要求生成可能的后续文本，而不是对每句话做数据库级事实验证。当上下文没有提供可靠证据时，模型仍可能流畅地继续生成。"
+          ],
+          "check": "“语言流畅”与“事实可靠”是两个不同指标；模型可以在前者很高、后者很低。"
+        },
+        {
+          "title": "第三层：聊天模型是在基础模型上继续训练出来的",
+          "paragraphs": [
+            "基础模型主要学习续写。聊天模型还经过指令微调和偏好优化，学会遵循请求、拒绝危险任务、使用对话格式并给出更符合人类偏好的回答。",
+            "所以 ChatGPT 或 Claude 不是一个单独的神奇算法，而是 Transformer 基础模型、后训练、系统提示、工具、检索和产品安全机制共同组成的系统。"
+          ],
+          "check": "比较“基础模型”“聊天模型”“聊天产品”三个层次，不能把产品具有的搜索能力误认为模型参数本身实时知道新闻。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Introduction to Generative AI and LLMs",
+          "source": "Microsoft Generative AI for Beginners · Lesson 01",
+          "type": "必读",
+          "duration": "25 分钟",
+          "instruction": "阅读 What are LLMs、How do LLMs work 和 Limitations；记录三个仍不理解的词。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/01-introduction-to-genai"
+        },
+        {
+          "title": "The spelled-out intro to language modeling: building makemore",
+          "source": "Andrej Karpathy · Neural Networks: Zero to Hero",
+          "type": "视频 + 代码",
+          "duration": "前 45 分钟",
+          "instruction": "重点看 bigram 模型如何统计、计算概率、采样和用 loss 评价；不要求一次看完 1 小时 57 分。",
+          "url": "https://www.youtube.com/watch?v=PaCmpygFfXo"
+        },
+        {
+          "title": "Understanding Large Language Models",
+          "source": "Sebastian Raschka · LLMs from Scratch · Chapter 1",
+          "type": "参考",
+          "duration": "20 分钟",
+          "instruction": "用章节总览校准概念：pretraining、finetuning 与 transformer 的关系。",
+          "url": "https://github.com/rasbt/LLMs-from-scratch/tree/main/ch01"
+        }
       ],
       "lab": {
-        "title": "同一问题，问模型三次",
-        "instructions": "任选一个聊天模型，连续三次问“用 100 字解释为什么天空是蓝色的”，然后加入不同角色、受众和格式要求再次提问。",
-        "observe": "答案不是从固定数据库复制；上下文、随机性和约束会共同改变输出。"
+        "type": "token",
+        "title": "实验 1：把文本变成模型能处理的单位",
+        "instructions": "修改中英文、数字、Emoji 和标点，观察教学分词结果。然后打开 Karpathy 的 tokenizer 课程，比较真实 BPE 为什么不会简单按单词切分。",
+        "explain": "为什么 Token 不等于“单词”？Token 数量如何影响上下文长度、推理成本和模型处理中文的方式？",
+        "defaultText": "我想用 GPT build 一个 AI startup 🚀，预算是 $100。"
       },
-      "tasks": ["画出 AI → 机器学习 → 深度学习 → 生成式 AI → LLM 的关系", "用自己的话解释 Token 与“预测下一个词”", "完成三轮提示词对比实验"],
+      "deliverable": {
+        "title": "一页纸：我对语言模型的解释",
+        "description": "不要复制定义。假设你的读者从没用过 AI，用自己的例子解释一次训练和一次生成。",
+        "template": "输入上下文：\n候选 Token 与概率：\n模型如何选择下一步：\n训练时如何知道自己错了：\n为什么可能出现幻觉：\n基础模型与聊天产品的区别：",
+        "passCriteria": [
+          "明确出现“概率分布”和“逐 Token 生成”",
+          "能区分训练阶段与使用阶段",
+          "没有把模型描述成数据库或搜索引擎",
+          "能给出一个幻觉产生的机制性解释"
+        ]
+      },
+      "tasks": [
+        "完成 Microsoft Lesson 01 的指定阅读",
+        "观看 Karpathy bigram 课程至少前 45 分钟并运行或阅读对应 Notebook",
+        "完成浏览器 Token 实验并记录两个反直觉现象",
+        "按通过标准写完“一页纸解释”"
+      ],
       "quiz": {
-        "question": "LLM 生成回答时，最核心的动作是什么？",
-        "options": ["在数据库中检索完整答案", "根据上下文预测下一个 Token", "复制训练数据中的最近段落", "先理解真相再翻译成人话"],
-        "answer": 1
+        "question": "为什么“预测下一个 Token”能够学到世界知识和代码规律？",
+        "options": [
+          "因为每个事实都被写入一个固定参数",
+          "为了降低预测错误，模型必须压缩文本中反复出现的结构和关系",
+          "因为模型生成前会自动搜索互联网",
+          "因为 Tokenizer 已经包含所有答案"
+        ],
+        "answer": 1,
+        "explanation": "训练目标虽然局部，但要在大量不同上下文中持续预测正确，模型必须学习可复用的语言和数据规律。知识以分布式方式存在于参数关系中，并不等同于可靠数据库。"
       }
     },
     {
       "day": 2,
       "shortTitle": "拆开 Transformer",
-      "theme": "理解原理",
-      "title": "Token、向量和注意力：模型如何“读懂”一句话",
-      "intro": "你不需要推导矩阵公式，但要理解文字如何变成数字，以及 Attention 为什么让 Transformer 成为今天大模型的基础。",
-      "duration": "90 分钟",
-      "outcome": "能解释 Embedding 与 Attention",
-      "bigIdea": {
-        "title": "模型不认识文字，只认识向量之间的关系",
-        "explanation": "文本先被切成 Token，再映射成高维向量。注意力机制让每个 Token 动态判断：为了理解当前内容，应该重点参考上下文里的哪些 Token。",
-        "analogy": "开会时每个人都能听见所有人，但讨论不同问题时，会把注意力放在不同发言者身上。"
-      },
-      "concepts": [
-        { "name": "Tokenization", "explanation": "把文本切成模型词表里的单位；一个汉字、词或标点都可能成为 Token。" },
-        { "name": "Embedding", "explanation": "把离散 Token 映射到高维空间，语义接近的内容通常位置也更接近。" },
-        { "name": "Attention", "explanation": "为上下文不同位置动态分配权重，建立远距离关系。" },
-        { "name": "Transformer", "explanation": "以注意力为核心、可高效并行训练的神经网络架构。" }
+      "theme": "Token → 向量 → Attention",
+      "title": "文字如何变成向量，Attention 又如何组合上下文",
+      "intro": "今天进入 Transformer 核心。你会运行真实 Notebook，理解 Embedding、位置、Query/Key/Value 和多头注意力各自解决什么问题。",
+      "duration": "2.5～3 小时",
+      "outcome": "能沿着数据流解释一个 Token 如何经过 Attention 得到上下文表示",
+      "lessonQuestion": "模型看到的是数字，为什么仍能理解“它”指向谁，以及同一个词在不同句子中的含义？",
+      "explanations": [
+        {
+          "title": "Embedding：把离散编号变成可学习的坐标",
+          "paragraphs": [
+            "Tokenizer 输出的是整数 ID。整数大小没有语义，例如 ID 900 并不比 ID 20 更重要。Embedding 表为每个 ID 查出一个可训练向量，训练会让这些向量变成对任务有用的表示。",
+            "初始词向量只表示 Token 身份，还需要位置向量告诉模型先后顺序。否则“狗咬人”和“人咬狗”拥有相同 Token 集合。"
+          ],
+          "check": "Embedding lookup 在数学上可以看作 one-hot 向量乘矩阵，但实际实现不需要真的创建巨大 one-hot。"
+        },
+        {
+          "title": "Self-Attention：每个位置动态读取其他位置",
+          "paragraphs": [
+            "每个 Token 产生 Query、Key 和 Value。Query 表示“我现在想找什么”，Key 表示“我能被如何匹配”，二者相似度经过 softmax 变成权重，再对 Value 做加权求和。",
+            "因此“苹果放不进盒子，因为它太大”中的“它”可以从“苹果”“盒子”“大”等位置汇总信息。表示不是固定词典定义，而是上下文化结果。"
+          ],
+          "check": "Attention 权重回答的是当前计算中不同位置的相关程度，不等于人类意义上的完整解释或因果证明。"
+        },
+        {
+          "title": "Multi-Head 与 Transformer Block",
+          "paragraphs": [
+            "单个注意力头只有一种投影空间。多头注意力允许不同头同时学习位置、语法、指代或其他关系。各头结果拼接后继续经过线性层。",
+            "Transformer Block 还包含前馈网络、残差连接和归一化。注意力负责位置之间交换信息，前馈网络负责对每个位置的表示做非线性变换。多个 Block 堆叠后形成深层模型。"
+          ],
+          "check": "“Attention is all you need”不代表模型中只有 Attention；完整 Block 仍包含 MLP、归一化和残差连接。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Working with Text Data",
+          "source": "Raschka · LLMs from Scratch · Chapter 2",
+          "type": "Colab",
+          "duration": "60 分钟",
+          "instruction": "运行 tokenizer、滑动窗口、token embedding 和 positional embedding 单元；不要只看输出。",
+          "url": "https://colab.research.google.com/github/rasbt/LLMs-from-scratch/blob/main/ch02/01_main-chapter-code/ch02.ipynb"
+        },
+        {
+          "title": "Coding Attention Mechanisms",
+          "source": "Raschka · LLMs from Scratch · Chapter 3",
+          "type": "Colab",
+          "duration": "75 分钟",
+          "instruction": "至少运行 simple self-attention 和 causal attention；手工核对一次权重和为 1。",
+          "url": "https://colab.research.google.com/github/rasbt/LLMs-from-scratch/blob/main/ch03/01_main-chapter-code/ch03.ipynb"
+        },
+        {
+          "title": "Let's build the GPT Tokenizer",
+          "source": "Karpathy · minBPE",
+          "type": "视频 / Colab",
+          "duration": "选看 30 分钟",
+          "instruction": "重点理解 BPE merge 如何产生词表，以及 tokenizer 为什么会影响拼写、数字和多语言能力。",
+          "url": "https://www.youtube.com/watch?v=zduSFxRajkE"
+        }
       ],
       "lab": {
-        "title": "代词消歧实验",
-        "instructions": "让模型分析“苹果放不进盒子，因为它太大了”和“苹果放不进盒子，因为它太小了”中的“它”分别指什么，并要求标出判断依赖的词。",
-        "observe": "同一个 Token 的含义不是固定的，它需要根据上下文关系动态确定。"
+        "type": "attention",
+        "title": "实验 2：逐 Token 查看上下文读取",
+        "instructions": "依次点击每个 Token，观察课程设计的 Attention 权重。重点点击“它”“太”“大”，说明为何不同 Query 会得到不同加权结果。",
+        "explain": "Query、Key、Value 分别承担什么角色？为什么同一个 Token 在不同上下文中会得到不同表示？",
+        "tokens": ["苹果", "放", "不进", "盒子", "因为", "它", "太", "大"],
+        "weights": [
+          [0.48, 0.08, 0.08, 0.14, 0.05, 0.05, 0.04, 0.08],
+          [0.2, 0.26, 0.18, 0.16, 0.05, 0.05, 0.04, 0.06],
+          [0.13, 0.2, 0.25, 0.23, 0.05, 0.05, 0.04, 0.05],
+          [0.14, 0.08, 0.14, 0.48, 0.05, 0.04, 0.03, 0.04],
+          [0.12, 0.05, 0.12, 0.12, 0.22, 0.13, 0.08, 0.16],
+          [0.34, 0.04, 0.09, 0.24, 0.08, 0.08, 0.04, 0.09],
+          [0.08, 0.03, 0.05, 0.08, 0.08, 0.13, 0.32, 0.23],
+          [0.2, 0.03, 0.07, 0.17, 0.05, 0.16, 0.12, 0.2]
+        ],
+        "notes": [
+          "“苹果”的表示主要保留自身身份，同时读取“盒子”和性质信息。",
+          "动词位置需要读取动作参与者和结果。",
+          "“不进”与动作、容器关系紧密。",
+          "“盒子”保留自身并读取动作关系。",
+          "因果连接位置需要整合前后两个分句。",
+          "代词位置同时读取两个候选实体；后续性质会帮助模型消歧。",
+          "程度副词主要读取后续形容词。",
+          "性质位置读取“它”与候选实体，为指代判断提供信号。"
+        ]
       },
-      "tasks": ["解释文本如何从 Token 变成向量", "完成两组代词消歧实验", "画一张简化的 Transformer 输入→输出流程图"],
+      "deliverable": {
+        "title": "画出一个 Transformer Block 数据流",
+        "description": "用纸、白板或任意绘图工具，从 Token ID 开始画到下一个 Token logits。",
+        "template": "Token ID\n→ Token Embedding + Position\n→ Q / K / V\n→ Attention scores\n→ Softmax weights\n→ Weighted values\n→ Multi-head output\n→ Residual + Norm\n→ Feed Forward\n→ Residual + Norm\n→ Logits",
+        "passCriteria": [
+          "图中包含位置编码，不能只有词向量",
+          "能解释 QK 相似度为何要经过 softmax",
+          "能区分 Attention 的信息交换和 MLP 的逐位置变换",
+          "能解释 causal mask 为什么防止看到未来 Token"
+        ]
+      },
+      "tasks": [
+        "实际运行 Chapter 2 Colab 的 tokenizer 与 embedding 单元",
+        "实际运行 Chapter 3 的 self-attention 与 causal mask 单元",
+        "完成 Attention 浏览器实验并解释“它”的权重",
+        "画出并口述 Transformer Block 数据流"
+      ],
       "quiz": {
-        "question": "Embedding 最接近下面哪种描述？",
-        "options": ["把概念放进有语义距离的数字地图", "给每个单词查字典定义", "把文本压缩成 ZIP 文件", "模型输出后的评分器"],
-        "answer": 0
+        "question": "Self-Attention 中 softmax 后的权重主要用于什么？",
+        "options": [
+          "选择一个唯一正确 Token",
+          "对所有 Value 进行按相关程度加权汇总",
+          "更新模型参数",
+          "把文本重新切成 Token"
+        ],
+        "answer": 1,
+        "explanation": "Query 与 Key 产生匹配分数，softmax 将其转为归一化权重，再对 Value 做加权求和。参数更新发生在反向传播与优化器步骤中。"
       }
     },
     {
       "day": 3,
-      "shortTitle": "模型如何练成",
-      "theme": "训练与推理",
-      "title": "预训练、后训练、推理：为什么同一底座有不同性格",
-      "intro": "今天理解模型从“会续写”到“会对话”的完整训练链条，并学会区分参数、上下文窗口、温度和幻觉。",
-      "duration": "90 分钟",
-      "outcome": "会看懂模型发布说明",
-      "bigIdea": {
-        "title": "能力主要来自预训练，行为主要来自后训练",
-        "explanation": "预训练吸收语言和世界模式；指令微调教会模型按要求回答；偏好优化和强化学习让回答更有帮助、更安全。推理阶段则使用已训练的参数处理你的上下文。",
-        "analogy": "预训练像通识教育，指令微调像岗位培训，偏好优化像服务规范，上线回答就是实际工作。"
-      },
-      "concepts": [
-        { "name": "Pre-training", "explanation": "用大规模数据做下一个 Token 预测，形成底层能力。" },
-        { "name": "Post-training", "explanation": "通过指令数据、偏好数据与强化学习塑造模型行为。" },
-        { "name": "Inference", "explanation": "模型参数固定后，读取上下文并逐 Token 生成结果的过程。" },
-        { "name": "Hallucination", "explanation": "模型生成了语言上合理、事实却错误或无依据的内容。" }
+      "shortTitle": "训练一个 GPT",
+      "theme": "Loss、反向传播与采样",
+      "title": "模型如何从随机参数变成能生成语言的系统",
+      "intro": "今天把前两天连起来：构造训练样本、前向计算、交叉熵、反向传播、参数更新，然后理解推理时 temperature 和采样的真实作用。",
+      "duration": "2.5 小时",
+      "outcome": "能解释训练循环、验证集和生成采样，而不是只会说“喂数据”",
+      "lessonQuestion": "模型如何知道一次预测错了？为什么降低训练 Loss 不一定代表产品回答更可靠？",
+      "explanations": [
+        {
+          "title": "训练样本来自文本窗口",
+          "paragraphs": [
+            "给定 Token 序列 [A, B, C, D]，可以构造 A→B、AB→C、ABC→D 等监督信号。模型一次前向传播输出每个位置对词表的 logits，交叉熵衡量真实下一个 Token 的负对数概率。",
+            "反向传播计算每个参数对 Loss 的影响方向，优化器沿着降低 Loss 的方向更新参数。一次更新很小，但批量数据和大量步骤会让模型逐渐学习稳定模式。"
+          ],
+          "check": "训练不是把原文原封不动存入参数；它通过共同参数同时拟合大量上下文，但过拟合和记忆确实可能发生。"
+        },
+        {
+          "title": "Train / Validation / Test 防止自我欺骗",
+          "paragraphs": [
+            "训练集用于更新参数，验证集用于选择超参数和发现过拟合，测试集应留到最终评价。如果只看训练 Loss，模型可能只是记住样本。",
+            "对于聊天产品，还需要任务级 Eval。预训练 Loss 衡量 Token 预测，不能直接代表事实正确、安全、工具调用成功或用户满意。"
+          ],
+          "check": "模型发布中的 benchmark、human preference、latency 和 price 测量的是不同维度，不能由一个总分替代。"
+        },
+        {
+          "title": "生成：logits、temperature 与 sampling",
+          "paragraphs": [
+            "训练结束后参数固定。模型输出 logits，softmax 得到概率，再按 greedy、top-k、top-p 或随机采样选择 Token。Temperature 会重新缩放分布：低温度让高概率候选更集中，高温度让尾部候选更容易被选中。",
+            "Temperature 不会增加知识，也不会让错误自动消失。事实任务通常偏低温度，但可靠性仍依赖证据、工具和验证。"
+          ],
+          "check": "同一模型、同一 Prompt 可能因采样得到不同答案；完全一致需要固定模型版本、参数、seed（若支持）和外部工具结果。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Let's build GPT: from scratch, in code, spelled out",
+          "source": "Karpathy · Zero to Hero Lecture 7",
+          "type": "视频 + 代码",
+          "duration": "前 90 分钟",
+          "instruction": "跟着实现 bigram baseline、self-attention block 和训练循环；至少亲手修改一个超参数。",
+          "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY"
+        },
+        {
+          "title": "Implementing a GPT Model from Scratch",
+          "source": "Raschka · LLMs from Scratch · Chapter 4",
+          "type": "Colab",
+          "duration": "45 分钟",
+          "instruction": "运行 GPT_CONFIG_124M 和 dummy batch，打印每一层 shape，确认最终输出为何是 batch × tokens × vocabulary。",
+          "url": "https://colab.research.google.com/github/rasbt/LLMs-from-scratch/blob/main/ch04/01_main-chapter-code/ch04.ipynb"
+        },
+        {
+          "title": "Exploring and comparing different LLMs",
+          "source": "Microsoft Generative AI for Beginners · Lesson 02",
+          "type": "必读",
+          "duration": "25 分钟",
+          "instruction": "建立模型选择表：质量、上下文、延迟、成本、工具能力和数据政策。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/02-exploring-and-comparing-different-llms"
+        }
       ],
       "lab": {
-        "title": "参数控制实验",
-        "instructions": "在支持参数设置的平台上，用同一提示分别设置低温度和高温度生成产品名；再比较短上下文与提供充分背景的回答。",
-        "observe": "温度影响多样性，不等于智商；上下文增加可用信息，但不会自动保证事实正确。"
+        "type": "temperature",
+        "title": "实验 3：亲手改变概率分布并采样",
+        "instructions": "拖动 Temperature，观察候选概率如何变化并采样 12 次。低温度、高温度各记录一次结果，不要把 temperature 理解成创造力开关。",
+        "explain": "为什么低温度更稳定但不能保证正确？高温度为什么会同时增加多样性和低概率错误？",
+        "context": "这家 AI 创业公司的名字叫",
+        "candidates": ["智流", "星火", "熵猫", "云端", "土豆"],
+        "probabilities": [0.5, 0.24, 0.13, 0.09, 0.04]
       },
-      "tasks": ["区分预训练、后训练和推理", "比较至少两个主流模型的上下文、价格和定位", "记录一次模型幻觉并设计验证方法"],
+      "deliverable": {
+        "title": "训练与推理流程对照表",
+        "description": "把两个阶段的输入、变化项、输出和评价指标完全分开。",
+        "template": "训练阶段\n输入：\n会变化的东西：\nLoss 如何计算：\n如何防止过拟合：\n\n推理阶段\n输入：\n固定的东西：\n如何选择 Token：\n如何评价产品质量：",
+        "passCriteria": [
+          "明确训练时参数更新、推理时参数通常固定",
+          "能解释 cross-entropy 与真实 Token 概率的关系",
+          "能说明验证集与任务 Eval 的差别",
+          "能解释 temperature 只改变采样分布"
+        ]
+      },
+      "tasks": [
+        "观看 Karpathy GPT 课程并跟写至少一个训练循环",
+        "运行 Raschka Chapter 4 并记录关键 Tensor shape",
+        "完成温度采样实验并保存两组观察",
+        "完成训练与推理对照表"
+      ],
       "quiz": {
-        "question": "降低 temperature 通常会带来什么？",
-        "options": ["模型获得更多知识", "输出更稳定、保守", "上下文窗口变长", "彻底消除幻觉"],
-        "answer": 1
+        "question": "训练 Loss 持续下降，但验证 Loss 开始上升，最可能意味着什么？",
+        "options": [
+          "模型开始过拟合训练数据",
+          "模型上下文窗口自动变长",
+          "Temperature 太高",
+          "Tokenizer 停止工作"
+        ],
+        "answer": 0,
+        "explanation": "训练表现继续改善而未见数据表现恶化，是典型过拟合信号。Temperature 属于生成配置，不参与训练 Loss 的计算。"
       }
     },
     {
       "day": 4,
-      "shortTitle": "Prompt 与评测",
-      "theme": "可靠输出",
-      "title": "好 Prompt 不是咒语，而是清晰的任务接口",
-      "intro": "学会把目标、背景、输入、约束和输出格式写成可重复使用的提示，并用小型 Eval 判断改动是否真的更好。",
-      "duration": "90 分钟",
-      "outcome": "能设计可评测的提示词",
-      "bigIdea": {
-        "title": "Prompt 是自然语言写成的函数签名",
-        "explanation": "优秀提示词明确输入和输出契约，并提供必要上下文、边界和评价标准。真正专业的改进不是“感觉更好”，而是在固定测试集上比较。",
-        "analogy": "给同事派活：目标、资料、截止条件和交付格式越明确，返工越少。"
-      },
-      "concepts": [
-        { "name": "System Prompt", "explanation": "定义模型角色、长期规则、边界与行为优先级。" },
-        { "name": "Few-shot", "explanation": "通过少量输入输出示例，让模型模仿任务模式。" },
-        { "name": "Structured Output", "explanation": "要求 JSON 等固定结构，方便程序稳定消费结果。" },
-        { "name": "Eval", "explanation": "用代表性样本和评分标准持续测量质量、成本、延迟与安全。" }
+      "shortTitle": "Prompt 与 Eval",
+      "theme": "把自然语言变成可靠接口",
+      "title": "停止寻找咒语：用任务契约和测试集改进 Prompt",
+      "intro": "今天会完成 Anthropic 的真实交互教程，建立第一个 Eval 数据集，并学会区分“看起来不错”和“在代表性案例上更可靠”。",
+      "duration": "2～2.5 小时",
+      "outcome": "能编写带输入输出契约的 Prompt，并用固定案例比较版本",
+      "lessonQuestion": "为什么更长的 Prompt 不一定更好，而有清晰成功标准的 Prompt 通常更稳定？",
+      "explanations": [
+        {
+          "title": "Prompt 的核心是任务定义，不是角色扮演",
+          "paragraphs": [
+            "有效 Prompt 通常明确任务、必要背景、输入边界、约束、输出格式和成功标准。角色可以帮助确定视角，但“你是世界顶级专家”不能替代缺失的数据和规则。",
+            "把数据与指令清楚分隔，可以减少模型误把用户内容当系统规则。对于程序消费的结果，应优先使用结构化输出和 schema，而不是依赖自然语言格式承诺。"
+          ],
+          "check": "如果两个人读完 Prompt 对成功输出的理解不同，模型也很难稳定执行。"
+        },
+        {
+          "title": "Few-shot 示例是在定义决策边界",
+          "paragraphs": [
+            "示例最有价值的地方不是展示常规答案，而是展示边界：哪些输入应该拒绝、缺证据时如何表达、相似类别如何区分。",
+            "示例也会带来偏差。如果示例全部很长、语气相同或只覆盖成功案例，模型可能学到不希望的表面模式。"
+          ],
+          "check": "至少准备正常、边界、无效输入和证据不足四类样本。"
+        },
+        {
+          "title": "Eval 才是 Prompt 的版本控制",
+          "paragraphs": [
+            "先保存一组固定输入、期望行为和评分规则，再比较 Prompt A/B。指标可以包括正确性、字段完整、引用准确、拒绝行为、成本和延迟。",
+            "LLM-as-a-judge 很方便，但评委模型也会偏差。高风险任务需要规则检查和人工校准，并且评测上下文最好独立于生成上下文。"
+          ],
+          "check": "如果只在刚刚失败的一个案例上改 Prompt，很容易修好这一题却破坏其他题。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Anthropic Interactive Prompt Engineering Tutorial",
+          "source": "Anthropic",
+          "type": "Notebook 课程",
+          "duration": "60～90 分钟",
+          "instruction": "完成前四章练习：清晰直接、角色、结构化数据、示例；必须自己填写练习单元。",
+          "url": "https://github.com/anthropics/prompt-eng-interactive-tutorial"
+        },
+        {
+          "title": "Understanding Prompt Engineering Fundamentals",
+          "source": "Microsoft Generative AI for Beginners · Lesson 04",
+          "type": "必读",
+          "duration": "30 分钟",
+          "instruction": "关注 prompt components、best practices 和 examples；比较与你原来提问方式的差异。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/04-prompt-engineering-fundamentals"
+        },
+        {
+          "title": "Prompt engineering and evaluation examples",
+          "source": "OpenAI Cookbook",
+          "type": "案例库",
+          "duration": "20 分钟",
+          "instruction": "浏览至少一个与你场景相近的例子，观察它如何把测试和工具结果放进闭环。",
+          "url": "https://cookbook.openai.com"
+        }
       ],
       "lab": {
-        "title": "做一个五题 Eval",
-        "instructions": "为“新闻重要性分类”写 5 条样本和期望结果。先用模糊提示，再用包含标准、示例和输出格式的提示，对比正确率。",
-        "observe": "提示词优化必须面对固定样本，否则很容易只对眼前例子过拟合。"
+        "type": "prompt-eval",
+        "title": "实验 4：不要凭感觉比较两个 Prompt",
+        "instructions": "查看五个固定测试案例，理解 Prompt B 为什么在边界、格式和缺证据输入上更容易验收。随后把这些案例复制到你自己的 Eval 文件。",
+        "explain": "Prompt B 的提升来自哪些可观察约束？还有哪些部分必须由程序验证，而不能相信模型自检？",
+        "promptA": "帮我判断这些 AI 新闻重要不重要，返回结果。",
+        "promptB": "按 impact: high|medium|low 输出 JSON。仅依据输入；证据不足返回 unknown。high 必须影响模型能力、成本、法规或主流开发流程，并给出 evidence 字段。",
+        "cases": [
+          {
+            "input": "主流模型 API 价格下降 80%",
+            "expected": "high，并引用价格变化",
+            "winner": "B",
+            "reason": "B 定义了 high 的业务含义和证据字段；A 没有统一尺度。",
+            "measure": "impact 枚举合法，evidence 包含 80%，理由对应成本影响。"
+          },
+          {
+            "input": "某博主称一个未发布模型将于明天上线",
+            "expected": "unknown",
+            "winner": "B",
+            "reason": "B 明确要求仅依据输入并允许 unknown，减少把传言包装成事实。",
+            "measure": "不得输出确定发布日期，必须标记证据不足。"
+          },
+          {
+            "input": "一个框架修复文档拼写",
+            "expected": "low",
+            "winner": "B",
+            "reason": "B 的决策边界让普通维护更新不会被夸大。",
+            "measure": "impact=low，不能声称影响模型能力或主流流程。"
+          },
+          {
+            "input": "空字符串",
+            "expected": "拒绝或 invalid_input",
+            "winner": "B",
+            "reason": "虽然 B 更接近可靠接口，但仍缺少输入校验契约，说明 Prompt 需要继续迭代。",
+            "measure": "系统不得生成虚构新闻；程序层应在调用模型前拒绝空输入。"
+          },
+          {
+            "input": "同一新闻重复三次",
+            "expected": "合并为一个判断",
+            "winner": "B",
+            "reason": "两者都未定义去重，因此这个案例揭示了新缺口，而不是强行宣布某版完美。",
+            "measure": "输出条目数为 1；需要在 Prompt 或预处理代码加入去重规则。"
+          }
+        ]
       },
-      "tasks": ["用目标/背景/输入/约束/格式重写一个 Prompt", "建立包含 5 个案例的小型 Eval", "记录质量、速度与成本三个指标"],
+      "deliverable": {
+        "title": "你的第一个 Prompt Eval 数据集",
+        "description": "选择一个真实任务，写 10 个案例。不要只写简单成功案例。",
+        "template": "任务：\nPrompt v1：\n\ncase_id | 输入 | 期望行为 | 评分规则\n01 | 正常案例 | | \n02 | 边界案例 | | \n03 | 无效输入 | | \n04 | 证据不足 | | \n05 | 对抗输入 | | \n...\n\n发布阈值：",
+        "passCriteria": [
+          "至少 10 个案例并覆盖四种不同失败类型",
+          "评分规则可由第三个人重复执行",
+          "包含至少一个应拒绝或 unknown 的案例",
+          "定义明确发布阈值，而不是“整体看起来不错”"
+        ]
+      },
+      "tasks": [
+        "完成 Anthropic Tutorial 前四章实际练习",
+        "阅读 Microsoft Prompt Lesson 并重写一个旧 Prompt",
+        "完成浏览器中的五案例分析",
+        "为自己的任务创建 10 条 Eval 数据"
+      ],
       "quiz": {
-        "question": "判断 Prompt 改进是否有效，最可靠的方法是？",
-        "options": ["看起来更长", "换一个更贵的模型", "在固定测试集上按标准比较", "加入更多形容词"],
-        "answer": 2
+        "question": "下面哪个改动最可能稳定提升结构化任务的一致性？",
+        "options": [
+          "反复强调“你非常聪明”",
+          "增加更多感叹号",
+          "定义输出 schema、边界案例和程序校验",
+          "每次失败都提高 temperature"
+        ],
+        "answer": 2,
+        "explanation": "Schema 和示例提高模型遵循概率，程序校验提供确定性保障。模型输出始终应被视为不可信输入。"
       }
     },
     {
       "day": 5,
-      "shortTitle": "RAG 与工具",
-      "theme": "连接外部世界",
-      "title": "模型不知道最新信息，RAG 和 Tool Use 来补齐",
-      "intro": "今天把“模型本身会什么”和“系统给模型什么”分开，理解搜索、向量库、函数调用和 MCP 的角色。",
-      "duration": "90 分钟",
-      "outcome": "能画出一个 RAG 系统",
-      "bigIdea": {
-        "title": "不要强迫模型记住一切，要在需要时给它证据和工具",
-        "explanation": "RAG 在回答前检索相关资料并放入上下文；Tool Use 让模型调用搜索、数据库、计算器或业务 API。模型负责判断和表达，外部系统负责事实和行动。",
-        "analogy": "闭卷考试变成开卷考试，还允许使用计算器和查业务系统。"
-      },
-      "concepts": [
-        { "name": "RAG", "explanation": "Retrieval-Augmented Generation：先检索，再把证据交给模型生成答案。" },
-        { "name": "Vector Search", "explanation": "按语义相似度寻找相关内容，而不只匹配关键词。" },
-        { "name": "Tool Calling", "explanation": "模型选择工具并生成参数，程序执行后再把结果返回模型。" },
-        { "name": "MCP", "explanation": "统一 AI 应用连接工具、数据和提示资源的开放协议。" }
+      "shortTitle": "亲手做 RAG",
+      "theme": "检索、上下文与引用",
+      "title": "模型不知道你的资料：构建一个真正的检索增强流程",
+      "intro": "今天不止画流程图。你会运行一个实际检索器，观察召回失败，并理解 chunk、embedding、top-k、rerank 和引用分别影响什么。",
+      "duration": "2.5 小时",
+      "outcome": "能构建并评价最小 RAG，知道检索失败与生成失败的区别",
+      "lessonQuestion": "把全部资料塞进 Prompt 为什么不是 RAG？检索到相关文档又为什么仍可能答错？",
+      "explanations": [
+        {
+          "title": "RAG 是两套系统，不是一个 Prompt 技巧",
+          "paragraphs": [
+            "检索系统负责从资料库找到可能相关的 chunk，生成系统负责依据这些证据回答。检索可用关键词、稀疏向量、embedding、混合检索和 reranker。",
+            "如果正确文档没被召回，模型再强也缺少证据；如果文档已召回但回答错误，则要检查 Prompt、上下文冲突、引用和模型遵循。两类错误必须分别测量。"
+          ],
+          "check": "先测 Recall@k：正确证据是否进入 top-k；再测回答正确率。"
+        },
+        {
+          "title": "Chunking 决定检索单位",
+          "paragraphs": [
+            "chunk 太小会丢失上下文，太大则稀释主题并浪费窗口。合理策略依赖文档结构：标题、段落、代码函数、表格和时间范围都可能成为边界。",
+            "Embedding 把查询和 chunk 映射到向量空间，余弦相似度用于排序。它擅长语义相似，但数字、专有名词和否定关系常需要关键词或结构化过滤补充。"
+          ],
+          "check": "生产 RAG 很少只靠一种检索；hybrid search 常用于同时保留语义和精确词项。"
+        },
+        {
+          "title": "Grounding：让答案和证据建立可检查关系",
+          "paragraphs": [
+            "Prompt 应要求只根据提供资料回答、证据不足时拒答，并为关键结论给出来源。程序还要验证引用 ID 是否真的存在。",
+            "引用存在不等于引用支持结论。Eval 需要检查 faithfulness：答案是否被引用段落蕴含，而不是模型先生成观点再随便附一个来源。"
+          ],
+          "check": "“资料中没有”是一个合法且重要的产品结果，不能把拒答率一味当作缺陷。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Building Search Apps with Vector Databases",
+          "source": "Microsoft Generative AI for Beginners · Lesson 08",
+          "type": "代码课程",
+          "duration": "45 分钟",
+          "instruction": "理解 embeddings、cosine similarity 和 search flow，并阅读 Python 或 TypeScript 示例。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/08-building-search-applications"
+        },
+        {
+          "title": "Retrieval Augmented Generation and Vector Databases",
+          "source": "Microsoft Generative AI for Beginners · Lesson 15",
+          "type": "代码课程",
+          "duration": "60 分钟",
+          "instruction": "完成 RAG 架构部分和至少一种实现路径，记录 ingestion 与 query 两个阶段。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/15-rag-and-vector-databases"
+        },
+        {
+          "title": "OpenAI Cookbook: Embeddings and search examples",
+          "source": "OpenAI Cookbook",
+          "type": "案例库",
+          "duration": "30 分钟",
+          "instruction": "查看 semantic search / question answering 案例，比较与浏览器 lexical lab 的差异。",
+          "url": "https://cookbook.openai.com/examples/vector_databases/readme"
+        }
       ],
       "lab": {
-        "title": "手工模拟一次 RAG",
-        "instructions": "找三篇产品资料，先直接问模型一个细节问题；再把最相关段落和来源放进提示，要求只依据资料回答并引用证据。",
-        "observe": "RAG 的价值来自相关、可靠、可引用的上下文，不是简单把更多文字塞给模型。"
+        "type": "rag",
+        "title": "实验 5：运行一个真实的最小检索器",
+        "instructions": "修改问题并点击检索。这个实验真的计算查询与文档的词项相似度、排序并构造上下文。尝试把“费用”改成“价格”，观察词法检索失败，再解释 embedding 的价值。",
+        "explain": "检索失败和生成失败如何分别定位？这个简单算法在哪些输入上必然表现差？",
+        "defaultQuery": "创业计划的 API 费用是多少？",
+        "documents": [
+          "Starter 计划每月 99 元，包含 1000 次 API 调用；超出部分每 1000 次收费 20 元。",
+          "Pro 计划支持团队成员、审计日志和私有数据连接器，每月 499 元。",
+          "系统使用每日快照备份，数据保留 30 天。删除账户后，备份将在下一轮保留周期结束时清除。"
+        ]
       },
-      "tasks": ["画出问题→检索→上下文→生成→引用的流程", "完成一次闭卷与开卷回答对比", "列出你的项目需要的 3 个外部工具"],
+      "deliverable": {
+        "title": "RAG 故障分析表",
+        "description": "为你的 AI Brief 项目设计 8 个查询，明确正确证据，并分别记录检索和回答结果。",
+        "template": "query | 正确证据 | top-k 是否召回 | 回答是否正确 | 引用是否支持 | 失败归因\n\n检索指标：Recall@3 =\n生成指标：Faithfulness =\n最常见失败：\n下一项改进：",
+        "passCriteria": [
+          "至少 8 个查询且包含同义词、数字和无答案问题",
+          "检索与生成使用两个独立指标",
+          "至少定位一个 chunking 或检索策略问题",
+          "系统允许证据不足时拒答"
+        ]
+      },
+      "tasks": [
+        "完成 Microsoft Lesson 08 的 embedding/search 核心代码",
+        "完成 Lesson 15 的 RAG 两阶段架构学习",
+        "在浏览器 lab 中主动制造一次检索失败",
+        "建立 8 条查询的 RAG 故障分析表"
+      ],
       "quiz": {
-        "question": "RAG 最主要解决什么问题？",
-        "options": ["让模型参数变多", "给模型提供相关、可更新的外部证据", "替代所有数据库", "让输出更有创造力"],
-        "answer": 1
+        "question": "正确证据没有进入 top-k，但模型回答错误，首先应改哪一层？",
+        "options": [
+          "检索、chunking 或索引层",
+          "提高生成 temperature",
+          "只让模型再思考一次",
+          "把回答字体加粗"
+        ],
+        "answer": 0,
+        "explanation": "没有证据时生成模型无法可靠恢复事实。应先修复召回，再评价生成；否则是在错误层优化。"
       }
     },
     {
       "day": 6,
-      "shortTitle": "Agent 与 Harness",
-      "theme": "从回答到行动",
-      "title": "Agent、Workflow、Harness、Skill：AI 如何连续完成任务",
-      "intro": "理解当下最容易混淆的四个词，并学会判断什么时候需要 Agent，什么时候普通工作流更可靠。",
-      "duration": "90 分钟",
-      "outcome": "能设计有边界的 Agent",
-      "bigIdea": {
-        "title": "Agent = 模型 + 工具 + 状态 + 循环 + 停止条件",
-        "explanation": "模型观察当前状态，决定下一步，调用工具，读取结果，再继续，直到达成目标或触发边界。Harness 提供运行环境、上下文管理、权限、日志和协作机制；Skill 则封装可复用能力。",
-        "analogy": "模型像员工，工具是办公软件，工作流是 SOP，Harness 是公司制度与办公环境，Skill 是岗位手册。"
-      },
-      "concepts": [
-        { "name": "Workflow", "explanation": "路径主要由开发者预先定义，稳定、可预测、易评测。" },
-        { "name": "Agent", "explanation": "由模型根据中间结果动态选择下一步，灵活但更难控制。" },
-        { "name": "Harness", "explanation": "承载 Agent 的上下文、工具权限、记忆、子任务、日志和生命周期。" },
-        { "name": "Skill", "explanation": "带说明、流程和资源的可复用任务能力，可被 Agent 按需调用。" }
+      "shortTitle": "运行 Agent 循环",
+      "theme": "工具、状态与 Harness",
+      "title": "Agent 不是会聊天的角色：它是一个受约束的决策循环",
+      "intro": "今天学习 Hugging Face 官方 Agents Course，并亲手运行一个带工具、步骤预算、停止条件和人工确认的 Agent 状态机。",
+      "duration": "2.5～3 小时",
+      "outcome": "能区分 Workflow 与 Agent，并设计可停止、可观察、可恢复的执行循环",
+      "lessonQuestion": "为什么给模型十个工具并说“自主完成”通常不是可靠的 Agent 架构？",
+      "explanations": [
+        {
+          "title": "Agent Loop：Observe → Decide → Act",
+          "paragraphs": [
+            "Agent 读取目标和当前状态，让模型选择下一动作，调用工具，把结果写回状态，再进入下一轮。模型不是直接执行 API；它通常只生成结构化工具名和参数，由 Harness 校验并执行。",
+            "工具描述必须明确输入、输出、副作用和错误。工具过多会增加选择空间与误调用概率，应按任务动态提供最小工具集。"
+          ],
+          "check": "模型提出调用不等于调用成功；工具错误、超时和部分结果必须作为新观察进入状态。"
+        },
+        {
+          "title": "Workflow 与 Agent 的边界",
+          "paragraphs": [
+            "路径确定、风险高的步骤应写成普通代码或固定 Workflow；只有确实需要根据中间信息改变路径的节点才交给模型。",
+            "常见可靠模式是“确定性外壳 + 少量 Agent 决策”：代码控制循环、预算、权限和状态，模型负责分类、选择或生成。"
+          ],
+          "check": "如果流程可以用 if/else 清楚表达且变化不频繁，Agent 可能只是增加成本和不确定性。"
+        },
+        {
+          "title": "Harness 决定 Agent 能否进入生产",
+          "paragraphs": [
+            "Harness 管理上下文、工具白名单、日志、checkpoint、重试、最大轮数、成本、人工确认和恢复。Skill 则是带说明和资源的可复用能力。",
+            "多 Agent 只有在职责真正不同、上下文可隔离或任务可并行时才有价值。多个 Agent 自由讨论并不会自动提高正确率，反而可能传播同一个错误假设。"
+          ],
+          "check": "发布、付款、删除数据等有副作用工具应默认需要显式授权，不能只靠 System Prompt 约束。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Introduction to Agents · Unit 1",
+          "source": "Hugging Face Agents Course",
+          "type": "交互课程",
+          "duration": "60 分钟",
+          "instruction": "完成 agent definition、messages、tools、think-act-observe cycle 和 dummy agent library。",
+          "url": "https://huggingface.co/learn/agents-course/en/unit1/introduction"
+        },
+        {
+          "title": "Frameworks for AI Agents · Unit 2",
+          "source": "Hugging Face Agents Course",
+          "type": "实践课程",
+          "duration": "60 分钟",
+          "instruction": "任选 smolagents、LlamaIndex 或 LangGraph 路线完成一个最小 Tool Agent。",
+          "url": "https://huggingface.co/learn/agents-course/unit2/introduction"
+        },
+        {
+          "title": "12 Factor Agents",
+          "source": "HumanLayer",
+          "type": "工程原则",
+          "duration": "35 分钟",
+          "instruction": "重点阅读 own your prompts、own your context window、contact humans with tool calls 和 stateless reducer。",
+          "url": "https://github.com/humanlayer/12-factor-agents"
+        }
       ],
       "lab": {
-        "title": "把任务拆成 Workflow 和 Agent 两版",
-        "instructions": "选择“制作每日 AI 简报”，先画固定步骤版，再画允许模型自主选择搜索来源和追问方向的 Agent 版，标出每个风险点和人工确认点。",
-        "observe": "越开放的任务越适合 Agent；越高风险、越确定的流程越应增加约束或直接使用 Workflow。"
+        "type": "agent",
+        "title": "实验 6：执行一个有边界的 Agent",
+        "instructions": "逐步执行 Agent，先观察完整 trace；然后把最大步骤改成 2，体验 Harness 如何阻止无限循环；最后保留发布前人工确认。",
+        "explain": "哪些步骤应该固定为 Workflow，哪个节点真的需要模型决策？为什么人工确认必须由程序控制？",
+        "steps": [
+          { "action": "观察目标与可用工具", "result": "目标：生成 AI 日报。工具：读取新闻、去重、评分、发布。" },
+          { "action": "调用读取新闻工具", "result": "得到 28 条原始条目，其中 7 条可能重复。" },
+          { "action": "调用确定性去重与排序", "result": "保留 12 条，来源和日期字段均有效。" },
+          { "action": "模型选择 3 条高影响信号", "result": "根据模型能力、成本、法规和开发流程标准完成选择。" },
+          { "action": "请求发布日报", "result": "该工具会产生外部副作用，必须等待用户确认。", "requiresConfirmation": true },
+          { "action": "发布并记录结果", "result": "日报已发布，保存 trace、成本和选中条目 ID。" }
+        ]
       },
-      "tasks": ["区分 Agent、Workflow、Harness 和 Skill", "设计一个包含停止条件的 Agent 循环", "给高风险工具增加一次人工确认"],
+      "deliverable": {
+        "title": "一个可执行的 Agent 设计",
+        "description": "不是画几个角色。请定义状态、工具契约、循环和所有停止方式。",
+        "template": "目标：\nState schema：\n确定性 Workflow 节点：\n模型决策节点：\n工具白名单与参数 schema：\n最大步骤 / 时间 / 成本：\n重试与不可重试错误：\n人工确认点：\n成功终止状态：\n失败终止状态：\n需要记录的 trace：",
+        "passCriteria": [
+          "至少一个模型决策节点被改回确定性代码",
+          "包含最大轮数、时间或成本预算",
+          "副作用操作由程序层人工确认",
+          "失败后可以从状态或 checkpoint 定位与恢复"
+        ]
+      },
+      "tasks": [
+        "完成 Hugging Face Agents Course Unit 1",
+        "从 Unit 2 任选一个框架运行最小 Agent",
+        "完成浏览器 Agent trace 和预算实验",
+        "提交包含状态与停止条件的 Agent 设计"
+      ],
       "quiz": {
-        "question": "下面哪个任务最不适合完全自主的 Agent？",
-        "options": ["整理公开新闻", "探索多个研究方向", "未经确认直接转账", "为旅行生成备选路线"],
-        "answer": 2
+        "question": "哪一项最能提高生产 Agent 的可靠性？",
+        "options": [
+          "给 Agent 更多角色名称",
+          "让模型自行决定是否遵守预算",
+          "用程序控制工具权限、状态、预算和停止条件",
+          "把所有错误都自动无限重试"
+        ],
+        "answer": 2,
+        "explanation": "Prompt 约束是概率性的。权限、预算、校验和终止必须由 Harness 的确定性代码执行。"
       }
     },
     {
       "day": 7,
-      "shortTitle": "发布创业 MVP",
-      "theme": "产品化",
-      "title": "从 Demo 到 Startup：发布你的 AI Brief Copilot",
-      "intro": "最后一天把前六天的知识连起来：明确用户痛点、搭建最小数据流、连接模型、定义评测，并找到第一个真实用户。",
-      "duration": "120 分钟",
-      "outcome": "完成一个可演示的 AI MVP",
-      "bigIdea": {
-        "title": "AI 创业的壁垒通常不只是模型，而是闭环",
-        "explanation": "真正有价值的产品把独特用户场景、持续数据、工作流集成、反馈和评测连成闭环。模型会快速商品化，但对用户问题的理解和可持续改进不会自动出现。",
-        "analogy": "发动机人人可以买，真正不同的是你造什么车、为谁造、在哪条路上跑，以及如何不断调校。"
-      },
-      "concepts": [
-        { "name": "Problem–Solution Fit", "explanation": "先验证痛点是否高频、昂贵、迫切，再讨论模型和功能。" },
-        { "name": "Human in the Loop", "explanation": "在高风险或不确定节点保留人工审核、纠正和授权。" },
-        { "name": "Observability", "explanation": "记录输入、输出、工具调用、延迟、成本和用户反馈。" },
-        { "name": "Feedback Loop", "explanation": "把真实使用中的好坏样本持续加入 Eval，驱动产品改进。" }
+      "shortTitle": "交付真实 MVP",
+      "theme": "从学习到产品证据",
+      "title": "构建、评测并交付 AI Brief Copilot",
+      "intro": "最后一天把模型、Prompt、RAG、Agent 与 Eval 连成闭环。目标不是完成一个漂亮 Demo，而是证明一个真实用户能从结果中获得价值。",
+      "duration": "3～4 小时",
+      "outcome": "完成一个有真实输入、模型调用、失败处理、Eval 和用户反馈的 AI MVP",
+      "lessonQuestion": "一个能生成文字的页面，距离真正可用的 AI 产品还缺哪些闭环？",
+      "explanations": [
+        {
+          "title": "从 Problem 到 Eval，而不是从模型到功能",
+          "paragraphs": [
+            "先定义谁在什么高频场景下做什么决策，再定义成功结果。AI Brief Copilot 的价值不是“总结新闻”，而是帮助特定用户更快发现影响产品决策的信号。",
+            "一个可验证承诺可能是：用户每天 5 分钟读完，能指出至少一条影响路线图、成本或技术选型的信息。这个指标会反过来决定数据源、Prompt 和输出结构。"
+          ],
+          "check": "如果不用 AI 也没人需要这个结果，加入 Agent 不会创造需求。"
+        },
+        {
+          "title": "最小生产闭环",
+          "paragraphs": [
+            "输入要有来源和时间；检索/筛选要可追踪；模型输出要有 schema；失败要显式；关键判断要引用证据；调用要记录延迟和成本；用户反馈要进入下一轮 Eval。",
+            "模型提供商应该是可替换组件。真正积累价值的是你的场景数据、评测集、工作流集成和用户反馈，而不是某个模型名称。"
+          ],
+          "check": "至少保留一次失败输出，并把它变成回归案例；只有成功截图无法证明系统可靠。"
+        },
+        {
+          "title": "发布前的安全与责任",
+          "paragraphs": [
+            "不要把 API Key 放进前端或仓库。限制输入大小、工具权限和费用；对外部内容考虑 prompt injection；对事实型输出显示来源和不确定性。",
+            "用户应知道哪些内容由模型生成、哪些操作会产生外部影响，以及如何纠正或撤销。高风险领域不能用一句免责声明替代专业控制。"
+          ],
+          "check": "安全不是最后加一段 Prompt，而是权限、数据、界面和流程共同提供的系统属性。"
+        }
+      ],
+      "resources": [
+        {
+          "title": "The Generative AI Application Lifecycle",
+          "source": "Microsoft Generative AI for Beginners · Lesson 14",
+          "type": "必读",
+          "duration": "35 分钟",
+          "instruction": "关注 prototype、evaluation、deployment 与 monitoring；把每阶段映射到你的 MVP。",
+          "url": "https://github.com/microsoft/generative-ai-for-beginners/tree/main/14-the-generative-ai-application-lifecycle"
+        },
+        {
+          "title": "Create, Test and Certify Your Agent",
+          "source": "Hugging Face Agents Course · Unit 4",
+          "type": "项目 / Benchmark",
+          "duration": "45 分钟",
+          "instruction": "阅读最终项目如何用自动评测而不是主观 Demo 判断 Agent；选择可迁移到你项目的一项指标。",
+          "url": "https://huggingface.co/learn/agents-course/unit4/introduction"
+        },
+        {
+          "title": "Starter AI Agents",
+          "source": "Awesome LLM Apps",
+          "type": "项目参考",
+          "duration": "30 分钟",
+          "instruction": "只选一个单文件 Starter 阅读其数据流，不要复制多个框架。比较它与本项目 server.py 的模型调用边界。",
+          "url": "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/starter_ai_agents"
+        }
       ],
       "lab": {
-        "title": "完成本系统的创业实验室",
-        "instructions": "打开“创业实验室”，填写产品画布，粘贴今日素材，连接一个 OpenAI-compatible 模型生成简报。找一位真实用户阅读，并记录他是否采取行动。",
-        "observe": "用户是否改变决策，比回答是否看起来聪明更重要。"
+        "type": "capstone",
+        "title": "实验 7：用证据判断 MVP 是否真的完成",
+        "instructions": "逐项勾选已经存在的证据。然后打开创业实验室，用真实素材和模型完成缺失项。只有所有项目都有可展示证据，才算毕业。",
+        "explain": "你的 MVP 解决的是谁的什么决策？最危险的失败是什么？你将如何从真实反馈改进 Eval？",
+        "checks": [
+          "有一个真实目标用户和具体决策场景",
+          "输入信息带来源、时间并经过基本去重",
+          "模型输出有明确结构和证据不足处理",
+          "至少有 10 个固定 Eval 案例",
+          "保留一次失败结果并加入回归集",
+          "记录模型、延迟、成本和错误",
+          "API Key 只存在服务端环境变量",
+          "一位真实用户试用并给出可记录反馈"
+        ]
       },
-      "tasks": ["填写产品画布并定义一个核心指标", "用真实模型生成第一份决策简报", "邀请一位用户试用并记录反馈", "把失败案例加入你的下一轮 Eval"],
+      "deliverable": {
+        "title": "毕业包：可运行 MVP + Eval + 用户证据",
+        "description": "最终交付不是一张截图，而是一组别人可以复现和评价的证据。",
+        "template": "产品一句话：\n目标用户与决策：\n运行方式：\n系统数据流：\n模型与选择理由：\nEval 数据集位置：\n当前通过率：\n已知失败：\n安全与成本边界：\n用户反馈原话：\n下一轮只改一件事：",
+        "passCriteria": [
+          "陌生人可以按 README 启动并完成一次输入输出",
+          "输出包含事实、判断、待验证项和来源边界",
+          "Eval 至少覆盖正常、空输入、重复、传言和无关信息",
+          "至少一位真实用户反馈，而不是模型自评",
+          "明确记录当前不工作的部分"
+        ]
+      },
+      "tasks": [
+        "完成 Microsoft 应用生命周期阅读并映射到项目",
+        "配置真实 OpenAI-compatible API 并生成一份简报",
+        "运行至少 10 个 Eval 案例并记录失败",
+        "邀请一位真实用户试用并记录反馈",
+        "完成毕业包并只选择一个下一轮改进"
+      ],
       "quiz": {
-        "question": "AI MVP 最值得优先验证的是？",
-        "options": ["Logo 是否精致", "使用了多少个 Agent", "是否解决真实用户的高频问题", "模型参数是否最大"],
-        "answer": 2
+        "question": "什么最能证明 AI MVP 已经产生真实价值？",
+        "options": [
+          "使用了最新、最大的模型",
+          "页面视觉效果很好",
+          "真实用户依据输出采取了有价值的行动，并且结果可被持续评测",
+          "Agent 自己评价结果为优秀"
+        ],
+        "answer": 2,
+        "explanation": "模型和界面只是手段。产品价值来自真实用户结果，工程可靠性来自可重复的 Eval、观察与反馈闭环。"
       }
     }
   ]
