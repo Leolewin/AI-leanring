@@ -1,6 +1,7 @@
 const state = {
   curriculum: [],
   curriculumMeta: null,
+  apiConfigured: null,
   news: [],
   ecosystem: null,
   techniques: null,
@@ -155,6 +156,11 @@ function renderLearningOverview() {
       <summary><strong>${escapeHtml(data.sourcePolicy.title)}</strong><span>为什么这些链接可信？</span></summary>
       <ul>${data.sourcePolicy.rules.map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}</ul>
     </details>`;
+  const completion = document.querySelector("#learning-completion");
+  completion.append(
+    document.querySelector("#learning-overview .final-assessment"),
+    document.querySelector("#learning-overview .source-policy"),
+  );
 }
 
 function renderLesson() {
@@ -424,6 +430,7 @@ async function detectApi() {
     const response = await fetch("/api/config");
     if (!response.ok) throw new Error("not running via server");
     const config = await response.json();
+    state.apiConfigured = config.configured;
     status.textContent = config.configured ? `模型已连接 · ${config.model}` : "模型未配置 · 当前为演示模式";
     status.classList.toggle("online", config.configured);
   } catch {
@@ -437,6 +444,16 @@ async function generateBrief() {
   const output = document.querySelector("#brief-output");
   if (!input) {
     showToast("请先粘贴一些新闻素材");
+    return;
+  }
+  if (state.apiConfigured === false) {
+    const signals = input
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .slice(0, 3);
+    output.className = "brief-output demo";
+    output.textContent = `【本地演示结果 · 未调用模型】\n\n## 今日三条关键信号\n${signals.map((signal, index) => `${index + 1}. ${signal}`).join("\n")}\n\n## 对我的影响\n围绕“${focus || "AI 产品与技术"}”逐条核对来源、发布日期与是否改变现有决策。\n\n## 下一步行动\n1. 打开原始来源验证最重要的一条。\n2. 配置 AI_API_KEY 后再运行真实模型分析。\n\n## 仍需验证\n本结果只展示产品的数据流和输出结构，没有进行模型判断。`;
     return;
   }
   output.className = "brief-output";
@@ -613,6 +630,7 @@ async function init() {
     renderTechniqueFilters();
     renderTechniques();
     renderPracticeUpdates();
+    document.querySelectorAll(".loading").forEach((element) => element.classList.remove("loading"));
   } catch (error) {
     document.querySelectorAll(".loading").forEach((element) => {
       element.textContent = `加载失败：${error.message}。请通过 python3 server.py 启动。`;
