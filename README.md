@@ -8,6 +8,7 @@
 - **交互式学习进度**：任务清单和产品画布保存在浏览器本地。
 - **AI 信号雷达**：聚合模型厂商、AI 媒体、Hugging Face 和主流 GitHub 项目发布。
 - **生态榜**：持续更新 LangGraph、OpenAI Agents SDK、AutoGen、CrewAI、LlamaIndex、Mastra、Vercel AI SDK 和 Transformers。
+- **GPT / Claude 开发秘籍**：覆盖需求设计、上下文工程、Debug、Agent 编排、结构化约束、Eval、Review 与交付证据。
 - **Startup Lab**：连接任意 OpenAI-compatible API，生成有事实边界、影响分析和行动建议的 AI 决策简报。
 - **自动化**：GitHub Actions 每天三次刷新数据，并将静态站点部署到 GitHub Pages。
 
@@ -48,6 +49,7 @@ python3 scripts/update_news.py
 2. 获取主流 AI 框架的 GitHub Release 与实时 Star。
 3. 按来源权重、时效性和 AI 关键词评分。
 4. 去重后写入 `data/news.json`，并刷新 `data/ecosystem.json`。
+5. 同步 OpenAI Cookbook、Claude Cookbooks、Promptfoo、Awesome Copilot、Superpowers、12 Factor Agents 等仓库的最新实践动态到 `data/techniques.json`。
 
 单个来源失败会明确记录到 `errors`；如果所有来源都失败，脚本退出并保留上一次有效数据。
 
@@ -85,7 +87,8 @@ python3 scripts/update_news.py
 ├── data/
 │   ├── curriculum.json        # 7 天课程
 │   ├── ecosystem.json         # 框架生态榜
-│   └── news.json              # 自动生成的新闻数据
+│   ├── news.json              # 自动生成的新闻数据
+│   └── techniques.json        # GPT / Claude 开发技巧与每日实践动态
 ├── scripts/update_news.py     # 新闻与 GitHub 数据聚合器
 └── .github/workflows/         # 自动更新和 GitHub Pages 部署
 ```

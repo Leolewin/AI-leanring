@@ -23,6 +23,7 @@
         <button class="nav-link" data-view="learn">7 天课程</button>
         <button class="nav-link" data-view="news">AI 雷达</button>
         <button class="nav-link" data-view="ecosystem">生态榜</button>
+        <button class="nav-link" data-view="techniques">开发秘籍</button>
         <button class="nav-link" data-view="lab">创业实验室</button>
       </nav>
       <button id="theme-toggle" class="icon-button" aria-label="切换主题">◐</button>
@@ -143,6 +144,50 @@
           <p class="eyebrow">我们参考了什么</p>
           <h2>不是复制一个项目，而是组合最佳实践</h2>
           <div id="research-sources" class="source-grid"></div>
+        </section>
+      </section>
+
+      <section id="view-techniques" class="view">
+        <div class="page-intro techniques-intro">
+          <div>
+            <p class="eyebrow">AI Development Playbook</p>
+            <h1>让 GPT / Claude 真正参与软件开发</h1>
+            <p>从需求澄清、编码和 Debug，到 Agent 编排、结果一致性与交付验证，把“随便问问”升级为稳定工程流程。</p>
+          </div>
+          <div class="freshness-card">
+            <span>实践雷达更新</span>
+            <strong id="techniques-updated">--</strong>
+            <small>追踪权威 Cookbook 与热门工程仓库</small>
+          </div>
+        </div>
+        <section class="technique-loop panel">
+          <div>
+            <p class="eyebrow">推荐默认流程</p>
+            <h2>SPEC → ACT → CHECK</h2>
+            <p class="muted">先让模型证明它理解问题，再允许改代码，最后用外部证据验收结果。</p>
+          </div>
+          <div class="loop-steps">
+            <article><span>1</span><strong>SPEC</strong><small>目标、范围、约束、验收标准</small></article>
+            <b>→</b>
+            <article><span>2</span><strong>ACT</strong><small>小步修改、保留边界、记录假设</small></article>
+            <b>→</b>
+            <article><span>3</span><strong>CHECK</strong><small>测试、Diff、反例、独立复核</small></article>
+          </div>
+        </section>
+        <div id="technique-filters" class="filter-row"></div>
+        <div id="technique-grid" class="technique-grid loading">正在加载开发秘籍…</div>
+        <section class="practice-updates">
+          <div class="section-heading">
+            <div><p class="eyebrow">Daily Practice Radar</p><h2>最近有哪些实践值得跟进</h2></div>
+            <p>自动读取高认可仓库的最新提交与发布，不把营销文章当最佳实践。</p>
+          </div>
+          <div id="practice-updates" class="practice-update-grid loading">正在获取最新实践动态…</div>
+        </section>
+        <section class="panel source-watch">
+          <div class="panel-heading">
+            <div><p class="eyebrow">Source Watch</p><h2>持续追踪的权威来源</h2></div>
+          </div>
+          <div id="technique-sources" class="source-grid"></div>
         </section>
       </section>
 

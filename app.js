@@ -2,8 +2,10 @@ const state = {
   curriculum: [],
   news: [],
   ecosystem: null,
+  techniques: null,
   activeDay: 1,
   newsFilter: "全部",
+  techniqueFilter: "全部",
   progress: JSON.parse(localStorage.getItem("ai-week-progress") || "{}"),
 };
 
@@ -178,6 +180,70 @@ function renderEcosystem() {
     .join("");
 }
 
+function renderTechniqueFilters() {
+  const categories = ["全部", ...new Set(state.techniques.playbooks.map((item) => item.category))];
+  document.querySelector("#technique-filters").innerHTML = categories
+    .map(
+      (category) =>
+        `<button class="filter-button ${state.techniqueFilter === category ? "active" : ""}" data-technique-filter="${escapeHtml(category)}">${escapeHtml(category)}</button>`,
+    )
+    .join("");
+}
+
+function renderTechniques() {
+  const playbooks =
+    state.techniqueFilter === "全部"
+      ? state.techniques.playbooks
+      : state.techniques.playbooks.filter((item) => item.category === state.techniqueFilter);
+  document.querySelector("#technique-grid").innerHTML = playbooks
+    .map(
+      (item) => `
+        <article class="technique-card">
+          <div class="technique-card-top">
+            <span class="technique-number">${escapeHtml(item.id)}</span>
+            <span class="category">${escapeHtml(item.category)}</span>
+          </div>
+          <h2>${escapeHtml(item.title)}</h2>
+          <p class="technique-principle">${escapeHtml(item.principle)}</p>
+          <ol>${item.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+          <div class="prompt-box">
+            <div><strong>可直接复制的 Prompt</strong><button class="text-button" data-copy-prompt="${escapeHtml(item.id)}">复制</button></div>
+            <pre>${escapeHtml(item.prompt)}</pre>
+          </div>
+          <div class="guardrail"><strong>一致性约束</strong><span>${escapeHtml(item.guardrail)}</span></div>
+          <div class="anti-pattern"><strong>避免</strong><span>${escapeHtml(item.avoid)}</span></div>
+        </article>`,
+    )
+    .join("");
+}
+
+function renderPracticeUpdates() {
+  document.querySelector("#practice-updates").innerHTML = state.techniques.updates.length
+    ? state.techniques.updates
+        .slice(0, 12)
+        .map(
+          (item) => `
+            <a class="practice-update-card" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">
+              <span>${escapeHtml(item.category)}</span>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.repo)}</p>
+              <small>${escapeHtml(item.date)}</small>
+            </a>`,
+        )
+        .join("")
+    : "<p>暂时没有新的实践动态。</p>";
+  document.querySelector("#technique-sources").innerHTML = state.techniques.sources
+    .map(
+      (source) => `
+        <a class="source-card" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">
+          <strong>${escapeHtml(source.name)}</strong>
+          <small>${escapeHtml(source.focus)}</small>
+          <span>★ ${formatStars(source.stars)}</span>
+        </a>`,
+    )
+    .join("");
+}
+
 async function detectApi() {
   const status = document.querySelector("#api-status");
   try {
@@ -222,6 +288,8 @@ function bindEvents() {
     const go = event.target.closest("[data-go]");
     const day = event.target.closest("[data-day]");
     const filter = event.target.closest("[data-filter]");
+    const techniqueFilter = event.target.closest("[data-technique-filter]");
+    const copyPrompt = event.target.closest("[data-copy-prompt]");
     const answer = event.target.closest("[data-answer]");
     if (nav) switchView(nav.dataset.view);
     if (go) switchView(go.dataset.go);
@@ -235,6 +303,20 @@ function bindEvents() {
       state.newsFilter = filter.dataset.filter;
       renderNewsFilters();
       renderNews();
+    }
+    if (techniqueFilter) {
+      state.techniqueFilter = techniqueFilter.dataset.techniqueFilter;
+      renderTechniqueFilters();
+      renderTechniques();
+    }
+    if (copyPrompt) {
+      const playbook = state.techniques.playbooks.find((item) => item.id === copyPrompt.dataset.copyPrompt);
+      if (playbook) {
+        navigator.clipboard.writeText(playbook.prompt).then(
+          () => showToast("Prompt 已复制"),
+          () => showToast("复制失败，请手动选择文本"),
+        );
+      }
     }
     if (answer) {
       answer.parentElement.querySelectorAll("button").forEach((button) => button.classList.remove("correct", "wrong"));
@@ -284,21 +366,25 @@ async function init() {
   }
   bindEvents();
   try {
-    const [curriculumResponse, newsResponse, ecosystemResponse] = await Promise.all([
+    const [curriculumResponse, newsResponse, ecosystemResponse, techniquesResponse] = await Promise.all([
       fetch("data/curriculum.json"),
       fetch("data/news.json"),
       fetch("data/ecosystem.json"),
+      fetch("data/techniques.json"),
     ]);
-    if (![curriculumResponse, newsResponse, ecosystemResponse].every((response) => response.ok)) throw new Error("数据文件加载失败");
-    const [curriculum, news, ecosystem] = await Promise.all([
+    if (![curriculumResponse, newsResponse, ecosystemResponse, techniquesResponse].every((response) => response.ok)) throw new Error("数据文件加载失败");
+    const [curriculum, news, ecosystem, techniques] = await Promise.all([
       curriculumResponse.json(),
       newsResponse.json(),
       ecosystemResponse.json(),
+      techniquesResponse.json(),
     ]);
     state.curriculum = curriculum.days;
     state.news = news.items;
     state.ecosystem = ecosystem;
+    state.techniques = techniques;
     document.querySelector("#news-updated").textContent = new Date(news.updatedAt).toLocaleString("zh-CN", { dateStyle: "medium", timeStyle: "short" });
+    document.querySelector("#techniques-updated").textContent = new Date(techniques.updatedAt).toLocaleString("zh-CN", { dateStyle: "medium", timeStyle: "short" });
     renderProgress();
     renderDayNav();
     renderLesson();
@@ -306,6 +392,9 @@ async function init() {
     renderNews();
     renderHomeSignals();
     renderEcosystem();
+    renderTechniqueFilters();
+    renderTechniques();
+    renderPracticeUpdates();
   } catch (error) {
     document.querySelectorAll(".loading").forEach((element) => {
       element.textContent = `加载失败：${error.message}。请通过 python3 server.py 启动。`;

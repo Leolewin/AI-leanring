@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import email.utils
 import json
+import os
 import re
 import sys
 import urllib.error
@@ -17,6 +18,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "data" / "news.json"
 ECOSYSTEM_OUTPUT = ROOT / "data" / "ecosystem.json"
+TECHNIQUES_OUTPUT = ROOT / "data" / "techniques.json"
 USER_AGENT = "AI-Learning-Radar/1.0 (+https://github.com/Leolewin/AI-leanring)"
 
 FEEDS = [
@@ -38,6 +40,21 @@ REPOSITORIES = [
     ("huggingface/transformers", "Transformers", "模型发布"),
 ]
 
+TECHNIQUE_REPOSITORIES = [
+    ("openai/openai-cookbook", "OpenAI Cookbook", "Prompt / API"),
+    ("anthropics/claude-cookbooks", "Claude Cookbooks", "Claude 实践"),
+    ("dair-ai/Prompt-Engineering-Guide", "Prompt Engineering Guide", "Prompt / Context"),
+    ("promptfoo/promptfoo", "Promptfoo", "Eval / 一致性"),
+    ("github/awesome-copilot", "Awesome Copilot", "Agents / Skills"),
+    ("obra/superpowers", "Superpowers", "开发工作流"),
+    ("humanlayer/12-factor-agents", "12 Factor Agents", "Agent 编排"),
+    (
+        "muratcankoylan/Agent-Skills-for-Context-Engineering",
+        "Context Engineering Skills",
+        "Context Engineering",
+    ),
+]
+
 HIGH_SIGNAL = re.compile(
     r"\b(model|agent|agents|reasoning|multimodal|benchmark|release|launch|open.source|"
     r"framework|mcp|skill|rag|inference|training|context|safety|eval|research)\b|"
@@ -47,7 +64,11 @@ HIGH_SIGNAL = re.compile(
 
 
 def fetch(url: str, accept: str = "*/*") -> bytes:
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": accept})
+    headers = {"User-Agent": USER_AGENT, "Accept": accept}
+    github_token = os.getenv("GITHUB_TOKEN")
+    if github_token and "api.github.com" in url:
+        headers["Authorization"] = f"Bearer {github_token}"
+    request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=25) as response:
         return response.read()
 
@@ -176,6 +197,42 @@ def update_ecosystem(stats: dict[str, dict[str, Any]]) -> None:
     ECOSYSTEM_OUTPUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def update_techniques(errors: list[str]) -> None:
+    data = json.loads(TECHNIQUES_OUTPUT.read_text(encoding="utf-8"))
+    sources = {item["repo"]: item for item in data["sources"]}
+    updates: list[dict[str, str]] = []
+    for repo, display_name, category in TECHNIQUE_REPOSITORIES:
+        try:
+            metadata = json.loads(fetch(f"https://api.github.com/repos/{repo}", "application/vnd.github+json"))
+            commits = json.loads(
+                fetch(f"https://api.github.com/repos/{repo}/commits?per_page=3", "application/vnd.github+json")
+            )
+            if repo in sources:
+                sources[repo]["stars"] = metadata.get("stargazers_count", sources[repo].get("stars", 0))
+            for commit in commits:
+                message = commit["commit"]["message"].splitlines()[0].strip()
+                committed_at = commit["commit"]["committer"]["date"]
+                updates.append(
+                    {
+                        "title": clean_html(message),
+                        "repo": display_name,
+                        "category": category,
+                        "date": parse_date(committed_at).date().isoformat(),
+                        "url": commit["html_url"],
+                    }
+                )
+            print(f"[ok] techniques {repo}")
+        except (urllib.error.URLError, json.JSONDecodeError, KeyError, TimeoutError) as error:
+            message = f"techniques {repo}: {error}"
+            errors.append(message)
+            print(f"[warn] {message}", file=sys.stderr)
+
+    if updates:
+        data["updates"] = sorted(updates, key=lambda item: item["date"], reverse=True)[:24]
+    data["updatedAt"] = datetime.now(UTC).isoformat()
+    TECHNIQUES_OUTPUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     all_items: list[dict[str, Any]] = []
     errors: list[str] = []
@@ -212,6 +269,9 @@ def main() -> int:
     OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if repo_stats:
         update_ecosystem(repo_stats)
+    update_techniques(errors)
+    payload["errors"] = errors
+    OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {len(final_items)} items to {OUTPUT.relative_to(ROOT)} ({len(errors)} source errors)")
     return 0
 
